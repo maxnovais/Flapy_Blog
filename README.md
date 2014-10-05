@@ -1,4 +1,4 @@
-Flapy_Blog
+flapy_blog
 ==========
 
-Little blog created using Flasky and Python
+A simple blog using some components of Flasky.

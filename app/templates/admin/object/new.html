@@ -1,0 +1,12 @@
+{% import "bootstrap/wtf.html" as wtf%}
+{% extends "admin/_base.html" %}
+
+{% block content %}
+{% include "admin/_menu.html" %}
+{% include "admin/_messages.html" %}
+<div class="col-md-4">
+    <h1>New {{label}}</h1>
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock content %}
+

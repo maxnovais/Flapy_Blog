@@ -1,0 +1,44 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Max's Flapy Blog{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link href="{{ url_for('static', filename='css/default.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/social.css') }}" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+    <!-- IE's hack viewport -->
+    <script src="static/js/ie-emulation-modes-warning.js"></script>
+    <script src="static/js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    {{ pagedown.html_head() }}
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+{% endblock head %}
+
+{% block body %}
+{% include "_headerbig.html" %}
+
+<div id="container" class="row">
+    {% block content %}{% endblock content %}
+</div>
+
+
+{% include "_footer.html" %}
+{% endblock body %}

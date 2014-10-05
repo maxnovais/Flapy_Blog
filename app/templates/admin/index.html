@@ -1,0 +1,14 @@
+{% extends "admin/_base.html" %}
+
+{% block content %}
+{% include "admin/_menu.html" %}
+{% include "admin/_messages.html" %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1>SUCCESS! Welcome {{ current_user.first_name }}! </h1>
+        <p>Here is some content that just logged in users can see!</p>
+        <p>Nice, you can select some functions in nav-bar.</p>
+    </div>
+</div>
+{% endblock content %}
+

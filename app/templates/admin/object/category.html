@@ -1,0 +1,69 @@
+{% import "bootstrap/wtf.html" as wtf%}
+{% import "admin/object/_category_pagination.html" as macros %}
+{% extends "admin/_base.html" %}
+
+{% block content %}
+{% include "admin/_menu.html" %}
+{% include "admin/_messages.html" %}
+<div class="col-md-12">
+    <h1>{{ label }}</h1>
+    <div class="pagination">
+      {{ macros.pagination_widget(pagination, '.index') }}
+    </div>
+    <p>
+     <div class="panel panel-default">
+      <div class="panel-heading">
+      <a href="{{ url_for('admin.all') }}">Show All</a>
+      |
+      {% if label == 'Post' %}
+      <a href="{{ url_for('admin.new_post')}}">New Post</a>
+      {% endif %}
+      {% if label == 'Link' %}
+      <a href="{{ url_for('admin.new_post')}}">New Link</a>
+      {% endif %}
+      | <strong>Total:</strong> {{ count }} {{ label }}s
+      </div>
+      <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Title</th>
+            <th>Last Update</th>
+            <th>Visible</th>
+            <th>Modify</th>
+        </tr>
+        {% for object in objects %}
+        <tr>
+            <td>{{ moment(object.created_on).fromTime(now) }}</td>
+            <td>{{ object.title }}</td>
+            <td>
+              {% if object.last_update == None %}
+                -
+              {% else %}
+                {{ moment(object.last_update).fromTime(now) }}
+              {% endif %}
+            </td>
+            <td>{{ object.enabled }}</td>
+            <td>
+              {% if object.object_type == 'post' %}
+                <a href="{{ url_for ('admin.edit_post', id=object.id) }}">Edit</a>
+              {% else %}
+                <a href="{{ url_for ('admin.edit_link', id=object.id) }}">Edit</a>
+              {% endif %}
+              |
+              <a href="{{ url_for('admin.turn_visible', id=object.id) }}">
+                {% if object.enabled == True %}
+                  Disable
+                {% else %}
+                  Enable
+                {% endif %}
+              </a>
+                |
+              <a href="{{ url_for('admin.delete', id=object.id) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    </p>
+</div>
+{% endblock content %}

@@ -1,0 +1,24 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Admin Panel - Flapy Blog{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link href="{{ url_for('static', filename='css/base-auth.css') }}" rel="stylesheet">
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    {{ pagedown.html_head() }}
+{% endblock head %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+{% endblock body %}

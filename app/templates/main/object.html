@@ -1,0 +1,43 @@
+{% extends "_base.html" %}
+{% block content %}
+<div class="col-sm-8 col-md-offset-2">
+   <div id="content" class="col-sm-9">
+        <div id="article">
+            <h1>{{ object.title }}</h1>
+            <p>
+                {% if object.body_html %}
+                    {{ object.body_html[:255] | safe }}
+                {% else %}
+                    {{ object.body[:255] }}
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div id="tech-info-title" class="well well-sm">
+            <h4 >{{ object.title }}</h4>
+            by {{object.author.first_name}} in {{ moment(object.created_on).fromTime(now) }}
+            <br>
+
+            <hr>
+                    {% for tag in object.tags %}
+                    <a href="{{ url_for('main.tag', id=tag.id) }}">
+                    <button type="button" class="btn btn-info btn-xs">
+                    {{ tag.name }}
+                    </button></a>
+                    {% endfor %}
+                <br><br>
+        </div>
+
+        <h4 class="centerizer">Relacionados</h4>
+            <ul class="related-trends">
+                <li>Artigo 1</li>
+                <li>Artigo 2</li>
+                <li>Artigo 3</li>
+            </ul>
+
+        <hr>
+    </div>
+</div>
+{% endblock content %}

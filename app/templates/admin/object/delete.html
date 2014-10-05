@@ -1,0 +1,50 @@
+{% import "bootstrap/wtf.html" as wtf%}
+{% extends "admin/_base.html" %}
+
+{% block content %}
+{% include "admin/_menu.html" %}
+{% include "admin/_messages.html" %}
+<div class="col-md-4">
+    <h1>Delete</h1>
+    <p>The {{ object.object_type }} bellow are completely dropped from de database.</p>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <p>
+                <strong>Title:</strong>
+                {{ object.title }}
+                <br>
+            <strong>Object Type: </strong>
+            {{ object.object_type }}
+                <br>
+            <strong>Created: </strong> 
+            {{ moment(object.created_on).fromTime(now) }}
+                <br>
+            <strong>Last Update: </strong>
+            {% if object.last_update == None %}
+                -
+            {% else %}
+               {{ moment(object.last_update).fromTime(now) }}
+            {% endif %}
+                <br>
+            <strong>Visible: </strong>
+            {{ object.enabled }}
+                <br>
+            <strong>Tags:</strong>
+            {% for tag in object.tags %}
+                {{ tag.name }}
+            {% endfor %}
+            </p>
+            <p>{{ object.body }}</p>
+        </div>
+    </div>
+    <p><strong>You are sure?</strong></p> 
+    <form class="form form-horizontal" method="post" role="form">
+      {{ form.hidden_tag() }}
+      {{ wtf.form_errors(form, hiddens="only") }}
+      {{ wtf.form_field(form.submit) }} 
+       &nbsp;&nbsp;&nbsp;
+      <a href="{{ url_for('admin.all') }}">No, thanks!</a>
+    </form>
+</div>
+{% endblock content %}

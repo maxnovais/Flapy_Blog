@@ -1,0 +1,42 @@
+{% import "bootstrap/wtf.html" as wtf%}
+{% extends "admin/_base.html" %}
+
+{% block content %}
+{% include "admin/_menu.html" %}
+{% include "admin/_messages.html" %}
+<div class="col-md-12">
+    <h1>All Tags</h1>
+    
+
+    <p>
+     <div class="panel panel-default">
+      <div class="panel-heading">
+      <strong>Total:</strong> {{ count }} Tags
+      </div>
+
+
+      <!-- Table -->
+      <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Tag</th>
+            <th>Modify</th>
+        </tr>
+        {% for tag in tags %}
+        <tr>
+            <td>{{ moment(tag.created_on).fromTime(now) }}</td>
+            <td>{{ tag.name }}</td>
+            <td>
+              <a href="{{ url_for ('admin.edit_tag', id=tag.id) }}">Edit</a>
+                |
+              <a href="{{ url_for('admin.delete_tag', id=tag.id) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    </p>
+</div>
+
+
+{% endblock content %}

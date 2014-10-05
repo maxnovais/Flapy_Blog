@@ -1,0 +1,21 @@
+body {
+  padding-top: 50px;
+  font-family: 'Raleway', sans-serif;
+}
+
+#email, #first_name, #last_name, #location {
+    width: 200px;
+}
+
+#password, #password_confirm, #new_password, #new_password_confirm {
+    width: 140px;
+}
+
+#body, #flask-pagedown-body {
+    width: 500px;
+    height: 250px;
+}
+
+#title {
+    width: 350px;
+}

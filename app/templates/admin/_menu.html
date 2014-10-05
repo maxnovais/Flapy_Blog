@@ -1,0 +1,37 @@
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{{ url_for('admin.index') }}">Admin Panel</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        {% if current_user.is_authenticated() %}
+        <li><a href="{{ url_for('admin.all') }}">All Entries</a></li>
+        <li><a href="{{ url_for('admin.all_tags') }}">Tags</a></li>
+        <li><a href="{{ url_for('admin.all_comments') }}">Comments</a></li>
+        <li><a href="{{ url_for('admin.edit_profile') }}">Edit Profile</a></li>
+        <li><a href="{{ url_for('security.change_password') }}">Change Password</a></li>
+        <li><a href="{{ url_for('security.logout') }}">Logout</a></li>
+        {% else %}
+          <li><a href="{{ url_for('main.index') }}">Home</a></li>
+          <li><a href="{{ url_for_security('login') }}">Login</a></li>
+        {% if security.registerable %}
+          <li><a href="{{ url_for_security('register') }}">Register</a></li>
+        {% endif %}
+        {% if security.recoverable %}
+          <li><a href="{{ url_for_security('forgot_password') }}">Forgot Password</a></li>
+        {% endif %}
+        {% if security.confirmable %}
+          <li><a href="{{ url_for_security('send_confirmation') }}">Confirm account</a></li>
+        {% endif %}
+        {% endif %}
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>

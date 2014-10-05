@@ -1,0 +1,14 @@
+{% import "bootstrap/wtf.html" as wtf%}
+{% extends "admin/_base.html" %}
+
+
+{% block content %}
+{% include "admin/_menu.html" %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% include "security/_messages.html" %}
+
+<div class="col-md-4">
+    <h1>Login</h1>
+    {{ wtf.quick_form(security.send_login_form()) }}
+</div>
+{% endblock content %}
