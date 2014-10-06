@@ -1,0 +1,45 @@
+{% extends "_base.html" %}
+{% block content %}
+<div class="col-md-8 col-md-offset-2">
+    <h1>All comments</h1>
+    <p>
+     <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong>Total:</strong> {{ count }} entries
+      </div>
+
+      <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Comment</th>
+            <th>Location</th>
+            <th></th>
+        </tr>
+        {% for comment in comments %}
+        <tr>
+            <td>{{ moment(comment.created_on).fromTime(now) }}</td>
+            <td>{{ comment.name }}</a></td>
+            <td>{{ comment.body }}</td>
+            <td>{{ comment.Object.title }}</td>
+            <td>
+                {% if comment.Object.object_type=='link' %}
+                <a href="{{ comment.object.body }}">
+                        <button type="button" class="btn btn-primary btn-xs">    
+                        <span class="glyphicon glyphicon-globe"></span> Acessar
+                        </button>
+                </a>
+                {% endif %}
+                <a href="{{ url_for('main.object', id=comment.Object.id) }}">
+                <button type="button" class="btn btn-success btn-xs">
+                <span class="glyphicon glyphicon-zoom-in"></span> Detalhes
+                </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    </p>
+</div>
+{% endblock content %}

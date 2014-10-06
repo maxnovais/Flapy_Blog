@@ -1,0 +1,14 @@
+{% extends "_base.html" %}
+{% block content %}
+<div class="col-sm-8 col-md-offset-2">
+    <h1>All tags</h1>
+    <p>
+        {% for tag in tags %}
+        <a href="{{ url_for('main.tag', id=tag.id) }}">
+        <button type="button" class="btn btn-info btn-md">
+        {{ tag.name }}
+        </button></a>
+        {% endfor %}
+    </p>
+</div>
+{% endblock content %}

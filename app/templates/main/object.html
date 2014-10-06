@@ -1,20 +1,22 @@
 {% extends "_base.html" %}
 {% block content %}
-<div class="col-sm-8 col-md-offset-2">
-   <div id="content" class="col-sm-9">
+{% include "main/_messages.html" %}
+<div class="col-md-8 col-md-offset-2">
+   <div id="content" class="col-md-9">
         <div id="article">
             <h1>{{ object.title }}</h1>
             <p>
                 {% if object.body_html %}
-                    {{ object.body_html[:255] | safe }}
+                    {{ object.body_html | safe }}
                 {% else %}
-                    {{ object.body[:255] }}
+                    {{ object.body }}
                 {% endif %}
             </p>
+            {% include "main/_comments.html" %}
         </div>
     </div>
 
-    <div class="col-sm-3">
+    <div class="col-md-3">
         <div id="tech-info-title" class="well well-sm">
             <h4 >{{ object.title }}</h4>
             by {{object.author.first_name}} in {{ moment(object.created_on).fromTime(now) }}

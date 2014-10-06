@@ -14,34 +14,46 @@
             </div>
             <div id="header-desc" class="col-xs-12 col-sm-3">
                 <p>
-                    <ul class="list-group menu-color">
+                    <ul class="list-group">
                         <li class="list-group-item">
+                        <a href="{{ url_for('main.index')}}" class="menu-color">
                         <span class="glyphicon glyphicon-home"></span>
                             Home
-                        </li>
-                        <li class="list-group-item article-color">
-                            <span class="badge">{{ posts.count() }}</span>
-                            <span class="glyphicon glyphicon-file"></span>
-                            Artigos
-                        </li>
-                        <li class="list-group-item link-color">
-                            <span class="badge">{{ links.count() }}</span>
-                            <span class="glyphicon glyphicon-link"></span>
-                            Links
-                        </li>
-                        <li class="list-group-item tag-color">
-                            <span class="badge">{{ tags.count() }}</span>
-                            <span class="glyphicon glyphicon-tags"></span>
-                            Tags
-                        </li>
-                        <li class="list-group-item comment-color">
-                            <span class="badge">{{ comments.count() }}</span>
-                            <span class="glyphicon glyphicon-comment"></span>
-                            Coment.
+                        </a>
                         </li>
                         <li class="list-group-item">
+                        <a href="{{ url_for('main.posts')}}" class="article-color">
+                            <span class="glyphicon glyphicon-file"></span>
+                            Artigos
+                            <span class="badge">{{ posts.count() }}</span>
+                        </a>
+                        </li>
+                        <li class="list-group-item">
+                        <a href="{{ url_for('main.links')}}" class="link-color">
+                            <span class="glyphicon glyphicon-link"></span>
+                            Links
+                            <span class="badge">{{ links.count() }}</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                        <a href="{{ url_for('main.tags')}}" class="tag-color">
+                            <span class="glyphicon glyphicon-tags"></span>
+                            Tags
+                            <span class="badge">{{ tags.count() }}</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                        <a href="{{ url_for('main.comments')}}" class="comment-color">
+                            <span class="glyphicon glyphicon-comment"></span>
+                            Coment.
+                            <span class="badge">{{ comments.count() }}</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                        <a href="{{ url_for('main.about')}}"  class="menu-color">
                         <span class="glyphicon glyphicon-user"></span>
                             Sobre
+                            </a>
                         </li>
                     </ul>
                 </p>

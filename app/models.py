@@ -42,7 +42,8 @@ class User(UserMixin, db.Model, TrueSelf):
     password = db.Column(db.String(255))
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
-    about = db.Column(db.String(255))
+    about = db.Column(db.String)
+    about_html = db.Column(db.String)
     location = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
@@ -57,6 +58,18 @@ class User(UserMixin, db.Model, TrueSelf):
 
     def __repr__(self):
         return '<User %r>' % self.email
+
+    @staticmethod
+    def on_changed_body(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+                                'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+                                'h1', 'h2', 'h3', 'p']
+        target.about_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+
+
+db.event.listen(User.about, 'set', User.on_changed_body)
 
 
 objects_tags = db.Table(
@@ -108,15 +121,18 @@ db.event.listen(Object.body, 'set', Object.on_changed_body)
 
 
 class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255))
     email = db.Column(db.String(255))
+    publish_email = db.Column(db.Boolean)
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
     created_on = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     disabled = db.Column(db.Boolean, default=Config.COMMENTS_INITIAL_ENABLED)
     object_id = db.Column(db.Integer, db.ForeignKey('object.id'))
 
+    def __repr__(self):
+        return '<Comment %r>' % (self.name)
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
@@ -124,9 +140,5 @@ class Comment(db.Model):
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
-
-    def __repr__(self):
-        return '<Comment %r>' % (self.title, self.tags)
-
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)

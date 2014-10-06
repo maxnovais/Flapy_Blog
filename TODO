@@ -1,0 +1,25 @@
+TODO - Now
+============================
+---> Admin Blueprint
+[ ] End of comment editor
+[ ] CSS of about-me
+
+---> Main Blueprint
+[ ] Fix the comment insert
+[ ] Create page of errors
+[ ] Some otimizations of html body
+
+---> App
+[ ] Create tests
+[ ] Edit config.py before deploy
+[ ] Manage the requirements (dev, prod)
+
+
+
+============================
+Next Version
+============================
+[ ] Revise using new Bootstrap theme
+[ ] Include social authentication
+[ ] Include like button
+[ ] Include gravatar in comments

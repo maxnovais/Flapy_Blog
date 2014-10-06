@@ -127,24 +127,29 @@ color: #bdb;
     background-color: #474;
 }
 
-.menu-color{
+.menu-color, a, a:hover{
     color: #657B76;
+    text-decoration: none;
 }
 
-.article-color{
-    color: #0074D9
+.article-color, a, a:hover{
+    color: #0074D9;
+    text-decoration: none;
 }
 
-.link-color{
-    color: #FF4136
+.link-color, a, a:hover{
+    color: #FF4136;
+    text-decoration: none;
 }
 
-.tag-color{
+.tag-color, a, a:hover{
     color: #B10DC9;
+    text-decoration: none;
 }
 
-.comment-color{
+.comment-color, a, a:hover{
     color: #3D9970;
+    text-decoration: none;
 }
 
 #site-footer-map{
