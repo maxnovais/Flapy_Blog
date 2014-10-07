@@ -1,9 +1,10 @@
 from . import main
-from flask import render_template, url_for, redirect, flash
+from flask import render_template, url_for, redirect, flash, request
 from .. import db
 from . import forms
 from ..models import Object, Tag, Comment, User
 import datetime
+from config import Config
 
 
 # Views
@@ -28,14 +29,22 @@ def index():
 def posts():
     now = datetime.datetime.now()
     query = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='post', enabled=True)
-    return render_template('main/objects.html', now=now, objects=query, label="Posts")
+    page = request.args.get('page', 1, type=int)
+    pagination = query.paginate(page, per_page=Config.GUEST_PER_PAGE, error_out=False)
+    objects = pagination.items
+    count = query.count()
+    return render_template('main/objects.html', now=now, objects=objects, pagination=pagination, count=count, label="Posts")
 
 
 @main.route('/links')
 def links():
     now = datetime.datetime.now()
     query = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='link', enabled=True)
-    return render_template('main/objects.html', now=now, objects=query, label="Links")
+    page = request.args.get('page', 1, type=int)
+    pagination = query.paginate(page, per_page=Config.GUEST_PER_PAGE, error_out=False)
+    objects = pagination.items
+    count = query.count()
+    return render_template('main/objects.html', now=now, objects=objects, pagination=pagination, count=count, label="Links")
 
 
 @main.route('/tags')
@@ -48,8 +57,11 @@ def tags():
 def tag(id):
     now = datetime.datetime.now()
     tag = Tag.query.get_or_404(id)
-    query = Object.query.filter(Object.tags.contains(tag))
-    return render_template('main/tag.html', now=now, objects=query, label=tag.name)
+    query = Object.query.filter(Object.tags.contains(tag)).filter_by(enabled=True)
+    page = request.args.get('page', 1, type=int)
+    pagination = query.paginate(page, per_page=Config.GUEST_PER_PAGE, error_out=False)
+    objects = pagination.items
+    return render_template('main/tag.html', id=id, now=now, objects=objects, pagination=pagination, label=tag.name)
 
 
 
@@ -58,7 +70,11 @@ def tag(id):
 def comments():
     now = datetime.datetime.now()
     query = Comment.query.order_by(Comment.created_on.desc()).filter_by(enabled=True)
-    return render_template('main/comments.html', now=now, comments=query)
+    page = request.args.get('page', 1, type=int)
+    pagination = query.paginate(page, per_page=Config.GUEST_PER_PAGE, error_out=False)
+    comments = pagination.items
+    count = query.count()
+    return render_template('main/comments.html', count=count, now=now, comments=comments, pagination=pagination)
 
 
 @main.route('/about')

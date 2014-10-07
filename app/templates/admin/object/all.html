@@ -1,5 +1,5 @@
 {% import "bootstrap/wtf.html" as wtf%}
-{% import "admin/object/_all_pagination.html" as macros %}
+{% import "_macros.html" as macros %}
 {% extends "admin/_base.html" %}
 
 {% block content %}
@@ -8,7 +8,7 @@
 <div class="col-md-12">
     <h1>All Entries</h1>
     <div class="pagination">
-      {{ macros.pagination_widget(pagination, '.index') }}
+      {{ macros.pagination_widget(pagination, '.all') }}
     </div>
     <p>
      <div class="panel panel-default">

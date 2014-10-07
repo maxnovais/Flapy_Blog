@@ -30,7 +30,9 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'password'
 
     #Blog Settings
-    COMMENTS_INITIAL_ENABLED= True
+    COMMENTS_INITIAL_ENABLED = True
+    ADMIN_PER_PAGE = 20
+    GUEST_PER_PAGE = 10
 
     @staticmethod
     def init_app(app):

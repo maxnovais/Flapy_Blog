@@ -1,11 +1,12 @@
 {% extends "_base.html" %}
+{% import "_macros.html" as macros %}
 {% block content %}
 <div class="col-md-8 col-md-offset-2">
     <h1>All comments</h1>
     <p>
      <div class="panel panel-default">
       <div class="panel-heading">
-        <strong>Total:</strong> {{ comments.count() }} entries
+        <strong>Total:</strong> {{ count }} entries
       </div>
 
       <table class="table">
@@ -17,35 +18,40 @@
             <th></th>
         </tr>
         {% for comment in comments %}
-        <tr>
-            <td>{{ moment(comment.created_on).fromTime(now) }}</td>
-            <td>
-              {% if comment.publish_email==True %} 
-              <a href="mailto:{{comment.email}}">{{comment.name}}</a>
-              {% else %}
-              {{comment.name}}
-              {% endif %}
-            </td>
-            <td>{{ comment.body }}</td>
-            <td>{{ comment.object.title }}</td>
-            <td>
-                {% if comment.object.object_type=='link' %}
-                <a href="{{ comment.object.body }}">
-                        <button type="button" class="btn btn-primary btn-xs">    
-                        <span class="glyphicon glyphicon-globe"></span> Acessar
-                        </button>
-                </a>
+          {% if comment.object.enabled==True %}
+          <tr>
+              <td>{{ moment(comment.created_on).fromTime(now) }}</td>
+              <td>
+                {% if comment.publish_email==True %} 
+                <a href="mailto:{{comment.email}}">{{comment.name}}</a>
+                {% else %}
+                {{comment.name}}
                 {% endif %}
-                <a href="{{ url_for('main.object', id=comment.object.id) }}">
-                <button type="button" class="btn btn-success btn-xs">
-                <span class="glyphicon glyphicon-zoom-in"></span> Detalhes
-                </button>
-                </a>
-            </td>
-        </tr>
+              </td>
+              <td>{{ comment.body }}</td>
+              <td>{{ comment.object.title }}</td>
+              <td>
+                  {% if comment.object.object_type=='link' %}
+                  <a href="{{ comment.object.body }}">
+                          <button type="button" class="btn btn-primary btn-xs">    
+                          <span class="glyphicon glyphicon-globe"></span> Acessar
+                          </button>
+                  </a>
+                  {% endif %}
+                  <a href="{{ url_for('main.object', id=comment.object.id) }}">
+                  <button type="button" class="btn btn-success btn-xs">
+                  <span class="glyphicon glyphicon-zoom-in"></span> Detalhes
+                  </button>
+                  </a>
+              </td>
+          </tr>
+          {%endif %}
         {% endfor %}
       </table>
     </div>
+        <div class="pagination">
+        {{ macros.pagination_widget(pagination, '.comments') }}
+        </div>
     </p>
 </div>
 {% endblock content %}

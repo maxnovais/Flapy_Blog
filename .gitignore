@@ -2,4 +2,5 @@
 *.sqlite
 venv
 migrations
+config.py
 *~

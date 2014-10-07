@@ -10,8 +10,7 @@ TODO - Now
 [ ] Some otimizations of html body
 
 ---> App
-[ ] Paginations
-[ ] Edit config.py before deploy
+[x] Paginations
 [ ] Manage the requirements (dev, prod)
 
 

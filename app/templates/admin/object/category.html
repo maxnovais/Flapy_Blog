@@ -1,5 +1,5 @@
 {% import "bootstrap/wtf.html" as wtf%}
-{% import "admin/object/_category_pagination.html" as macros %}
+{% import "_macros.html" as macros %}
 {% extends "admin/_base.html" %}
 
 {% block content %}
@@ -8,7 +8,11 @@
 <div class="col-md-12">
     <h1>{{ label }}</h1>
     <div class="pagination">
-      {{ macros.pagination_widget(pagination, '.index') }}
+      {% if label == 'Post' %}
+        {{ macros.pagination_widget(pagination, '.posts') }}
+      {% else %}
+        {{ macros.pagination_widget(pagination, '.links') }}
+      {% endif %}
     </div>
     <p>
      <div class="panel panel-default">

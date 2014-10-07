@@ -7,6 +7,7 @@ from . import forms
 from ..models import Object, Tag, Comment
 from helpers import get_tags
 import datetime
+from config import Config
 
 
 # Views
@@ -42,7 +43,7 @@ def all():
     now = datetime.datetime.now()
     page = request.args.get('page', 1, type=int)
     query = Object.query.order_by(Object.created_on.desc())
-    pagination = query.paginate(page, per_page=20,error_out=False)
+    pagination = query.paginate(page, per_page=Config.ADMIN_PER_PAGE, error_out=False)
     objects = pagination.items
     count = query.count()
     return render_template('admin/object/all.html', objects=objects, now=now, count=count, pagination=pagination)
@@ -55,8 +56,8 @@ def posts():
     now = datetime.datetime.now()
     query = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='post')
     page = request.args.get('page', 1, type=int)
-    pagination = query.paginate(page, per_page=20,error_out=False)
-    objects = query.all()
+    pagination = query.paginate(page, per_page=Config.ADMIN_PER_PAGE, error_out=False)
+    objects = pagination.items
     count = query.count()
     return render_template('admin/object/category.html', objects=objects, label=label_ob, now=now, count=count, pagination=pagination)
 
@@ -116,8 +117,8 @@ def links():
     now = datetime.datetime.now()
     query = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='link')
     page = request.args.get('page', 1, type=int)
-    pagination = query.paginate(page, per_page=20,error_out=False)
-    objects = query.all()
+    pagination = query.paginate(page, per_page=Config.ADMIN_PER_PAGE, error_out=False)
+    objects = pagination.items
     count = query.count()
     return render_template('admin/object/category.html', objects=objects, label=label_ob, now=now, count=count, pagination=pagination)
 
@@ -208,10 +209,12 @@ def delete(id):
 @login_required
 def all_tags():
     query = Tag.query.order_by(Tag.created_on.desc())
-    tags = query.all()
+    page = request.args.get('page', 1, type=int)
+    pagination = query.paginate(page, per_page=Config.ADMIN_PER_PAGE, error_out=False)
+    tags = pagination.items
     count = query.count()
     now = datetime.datetime.now()
-    return render_template('admin/tag/all.html', tags=tags, count=count, now=now)
+    return render_template('admin/tag/all.html', tags=tags, count=count, now=now, pagination=pagination)
 
 
 @admin.route('/tags/edit/<int:id>', methods=['GET', 'POST'])
@@ -249,7 +252,11 @@ def delete_tag(id):
 def all_comments():
     now = datetime.datetime.now()
     query = Comment.query.order_by(Comment.created_on.desc())
-    return render_template('admin/comment/all.html', now=now, comments=query)
+    page = request.args.get('page', 1, type=int)
+    pagination = query.paginate(page, per_page=Config.ADMIN_PER_PAGE, error_out=False)
+    count = query.count()
+    comments = pagination.items
+    return render_template('admin/comment/all.html', now=now, count= count, comments=comments, pagination=pagination)
 
 
 @admin.route('/comments/visible/<int:id>')

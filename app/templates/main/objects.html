@@ -1,11 +1,12 @@
 {% extends "_base.html" %}
+{% import "_macros.html" as macros %}
 {% block content %}
 <div class="col-md-8 col-md-offset-2">
     <h1>{{ label }}</h1>
-    <p>
+   <p>
      <div class="panel panel-default">
       <div class="panel-heading">
-        <strong>Total:</strong> {{ objects.count() }} entries
+        <strong>Total:</strong> {{ count }} entries
       </div>
 
       <table class="table">
@@ -28,7 +29,7 @@
                 {% endfor %}
             </td>
             <td>
-                {% if label=='Link' %}
+                {% if object.object_type=='link' %}
                 <a href="{{ object.body }}">
                         <button type="button" class="btn btn-primary btn-xs">    
                         <span class="glyphicon glyphicon-globe"></span> Acessar
@@ -45,6 +46,13 @@
         {% endfor %}
       </table>
     </div>
+        <div class="pagination">
+        {% if label=='Posts' %}
+            {{ macros.pagination_widget(pagination, '.posts') }}
+        {% else %}
+            {{ macros.pagination_widget(pagination, '.links') }}
+        {% endif %}
+        </div>
     </p>
 </div>
 {% endblock content %}
