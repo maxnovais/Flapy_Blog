@@ -11,7 +11,7 @@ body {
     width: 140px;
 }
 
-#body, #flask-pagedown-body {
+#body, #flask-pagedown-body, #flask-pagedown-about {
     width: 500px;
     height: 250px;
 }

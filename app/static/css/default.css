@@ -127,28 +127,33 @@ color: #bdb;
     background-color: #474;
 }
 
-.menu-color, a, a:hover{
+.menu-color, a:hover{
+    color: #555555;
+    text-decoration: none;
+}
+
+.menu-color, a{
     color: #657B76;
     text-decoration: none;
 }
 
-.article-color, a, a:hover{
+.article-color, a{
     color: #0074D9;
     text-decoration: none;
 }
 
-.link-color, a, a:hover{
+.link-color, a{
     color: #FF4136;
     text-decoration: none;
 }
 
-.tag-color, a, a:hover{
+.tag-color, a{
     color: #B10DC9;
     text-decoration: none;
 }
 
-.comment-color, a, a:hover{
-    color: #3D9970;
+.comment-color, a{
+    color: #1B7750;
     text-decoration: none;
 }
 
@@ -167,4 +172,12 @@ color: #bdb;
 
 .button-coment{
     text-align: center;
+}
+
+#flask-pagedown-body{
+    height: 150px;
+}
+
+#email, #name{
+    width: 60%
 }

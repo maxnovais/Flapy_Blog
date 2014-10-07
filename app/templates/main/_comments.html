@@ -4,11 +4,12 @@
       <div class="panel-heading">
         <h3 class="panel-title">Comments ({{ comments.count() }})</h3>
       </div>
+      {% include "main/_messages.html" %}
       <div class="panel-body">
         {% for comment in comments.all() %}
-          Write {{comment.created_on}} by
+          Write {{ moment(comment.created_on).fromTime(now) }} by
           {% if comment.publish_email==True %} 
-          <a href="emailto:{{comment.email}}"><i>{{comment.name}}</i></a>
+          <a href="mailto:{{comment.email}}"><i>{{comment.name}}</i></a>
           {% else %}
           <i>{{comment.name}}</i>
           {% endif %}

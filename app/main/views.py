@@ -13,7 +13,7 @@ def index():
     links = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='link', enabled=True)
     posts = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='post', enabled=True)
     tags = Tag.query.order_by(Tag.created_on.desc())
-    comments = Comment.query.order_by(Comment.created_on.desc())
+    comments = Comment.query.filter_by(enabled=True)
     return render_template(
         'index.html',
         now=now,
@@ -57,9 +57,8 @@ def tag(id):
 @main.route('/comments')
 def comments():
     now = datetime.datetime.now()
-    query = Comment.query.order_by(Comment.created_on.desc()).filter_by(disabled=False)
-    comments = query.all()
-    return render_template('main/comments.html', now=now, comments=comments, count=query.count())
+    query = Comment.query.order_by(Comment.created_on.desc()).filter_by(enabled=True)
+    return render_template('main/comments.html', now=now, comments=query)
 
 
 @main.route('/about')
@@ -80,11 +79,12 @@ def object(id):
             name=form.name.data,
             email=form.email.data,
             body=form.body.data,
-            object_id=query
+            publish_email=form.publish_email.data,
+            object_id=query.id
             )
         db.session.add(new_comment)
         db.session.commit()
         flash('Your comment has been created.')
         return redirect(url_for('main.object', id=query.id))
-    comments = query.comments
+    comments = query.comments.filter_by(enabled=True)
     return render_template('main/object.html', now=now, object=query, comments=comments, form=form)

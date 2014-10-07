@@ -247,26 +247,37 @@ def delete_tag(id):
 @admin.route('/comments')
 @login_required
 def all_comments():
-    query = Comment.query.order_by(Comment.created_on.desc())
-    comments = query.all()
-    count = query.count()
     now = datetime.datetime.now()
-    return render_template('admin/comment/all.html', comments=comments, count=count, now=now)
+    query = Comment.query.order_by(Comment.created_on.desc())
+    return render_template('admin/comment/all.html', now=now, comments=query)
 
 
 @admin.route('/comments/visible/<int:id>')
 @login_required
-def turn_visible_comment():
-    pass
+def turn_visible_comment(id):
+    query = Comment.query.filter_by(id=id).first_or_404()
+    if query.enabled is True:
+        query.enabled = False
+        db.session.add(query)
+        db.session.commit()
+        flash('The comment is Disabled')
+    else:
+        query.enabled = True
+        db.session.add(query)
+        db.session.commit()
+        flash('The comment is Enabled')
+    return redirect(url_for('admin.all_comments'))
 
 
-@admin.route('/comments/edit/<int:id>')
+@admin.route('/comments/delete/<int:id>')
 @login_required
-def edit_comment():
-    pass
-
-
-@admin.route('/comments/dele/<int:id>')
-@login_required
-def delete_comment():
-    pass
+def delete_comment(id):
+    now = datetime.datetime.now()
+    form = forms.Delete()
+    query = Comment.query.filter_by(id=id).first_or_404()
+    if form.validate_on_submit():
+        db.session.delete(query)
+        db.session.commit()
+        flash('The comment has been deleted')
+        return redirect(url_for('admin.all_comments'))
+    return render_template('admin/comment/delete.html', object=query, form=form, now=now)

@@ -127,8 +127,8 @@ class Comment(db.Model):
     publish_email = db.Column(db.Boolean)
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
-    created_on = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    disabled = db.Column(db.Boolean, default=Config.COMMENTS_INITIAL_ENABLED)
+    created_on = db.Column(db.DateTime, index=True, default=datetime.now)
+    enabled = db.Column(db.Boolean, default=Config.COMMENTS_INITIAL_ENABLED)
     object_id = db.Column(db.Integer, db.ForeignKey('object.id'))
 
     def __repr__(self):

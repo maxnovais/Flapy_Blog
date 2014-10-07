@@ -9,10 +9,7 @@
     <p>
      <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="{{ url_for('admin.new_post')}}">New Post</a>
-        |
-        <a href="{{ url_for('admin.new_link')}}">New Link</a>
-        | <strong>Total:</strong> {{ count }} entries
+      <strong>Total:</strong> {{ comments.count() }} entries
       </div>
 
       <table class="table">
@@ -21,25 +18,25 @@
             <th>Name</th>
             <th>Comment</th>
             <th>Location</th>
-            <th>Visible</th>
+            <th>Enabled</th>
             <th>Modify</th>
         </tr>
         {% for comment in comments %}
         <tr>
             <td>{{ moment(comment.created_on).fromTime(now) }}</td>
-            <td><a href="emailto:{{ url_for ('comment.email') }}">{{ comment.name }}</a></td>
-            <td>{{ comment.body }}</td>
-            <td>{{ comment.Object.title }}</td>
-            <td>{{ comment.disabled }}</td>
+            <td><a href="mailto:{{ comment.email }}">{{ comment.name }}</a></td>
+            <td>{{ comment.body[:50] }}</td>
+            <td>{{ comment.object.title }}</td>
+            <td>{{ comment.enabled }}</td>
             <td>
-              <a href="{{ url_for('admin.turn_visible_comment', id=object.id) }}">
-                {% if comment.disabled == True %}
-                  Enable
-                {% else %}
+              <a href="{{ url_for('admin.turn_visible_comment', id=comment.id) }}">
+                {% if comment.enabled == True %}
                   Disable
+                {% else %}
+                  Enable
                 {% endif %}
-              </a> |
-              <a href="{{ url_for('admin.delete_comment', id=object.id) }}">Delete</a>
+                </a> |
+              <a href="{{ url_for('admin.delete_comment', id=comment.id) }}">Delete</a>
             </td>
         </tr>
         {% endfor %}
