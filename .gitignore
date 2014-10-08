@@ -1,6 +1,6 @@
 *.pyc
 *.sqlite
+config.py
 venv
 migrations
-config.py
 *~

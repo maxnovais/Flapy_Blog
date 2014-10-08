@@ -3,11 +3,13 @@ TODO - Now
 ---> Admin Blueprint
 [x] End of comment editor
 [x] CSS of about-me
+[x] Fix login validator
+[ ] Refactor some forms
 
 ---> Main Blueprint
 [x] Fix the comment insert
 [x] Search on index
-[ ] Create page of errors
+[x] Create page of errors
 [ ] Some otimizations of html body
 
 ---> App

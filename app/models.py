@@ -1,6 +1,6 @@
 from datetime import datetime
 from . import db
-from flask.ext.login import UserMixin
+from flask.ext.security import UserMixin, RoleMixin
 from config import Config
 from markdown import markdown
 import bleach
@@ -12,28 +12,13 @@ roles_users = db.Table(
     db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
 
-class Role(db.Model):
+class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 
     def __repr__(self):
         return '<Role %r>' % self.name
-
-
-class TrueSelf(object):
-
-    @property
-    def self(self):
-        """If self was pointed to by a proxy, present the true self.
-
-        E.g. if self was returned by current_user, which is a proxy,
-        we actually want to have the actual User object on an entry,
-        not the one varying with each request.
-
-        Also vital for storing into DB.
-        """
-        return self
 
 
 class User(db.Model, UserMixin):

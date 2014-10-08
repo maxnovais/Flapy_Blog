@@ -14,6 +14,9 @@ from config import Config
 @admin.route('/')
 @login_required
 def index():
+    if current_user.first_name is None:
+        flash('Please, setup your profile!')
+        return redirect(url_for('admin.edit_profile'))
     return render_template('admin/index.html')
 
 

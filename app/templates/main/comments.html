@@ -34,13 +34,13 @@
                   {% if comment.object.object_type=='link' %}
                   <a href="{{ comment.object.body }}">
                           <button type="button" class="btn btn-primary btn-xs">    
-                          <span class="glyphicon glyphicon-globe"></span> Acessar
+                          <span class="glyphicon glyphicon-globe"></span> Go
                           </button>
                   </a>
                   {% endif %}
                   <a href="{{ url_for('main.object', id=comment.object.id) }}">
                   <button type="button" class="btn btn-success btn-xs">
-                  <span class="glyphicon glyphicon-zoom-in"></span> Detalhes
+                  <span class="glyphicon glyphicon-zoom-in"></span> Details
                   </button>
                   </a>
               </td>

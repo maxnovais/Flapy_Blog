@@ -3,12 +3,16 @@
 <div class="col-sm-8 col-md-offset-2">
     <h1>All tags</h1>
     <p>
+    <div class="panel panel-default">
+    <div id="show_tags">
         {% for tag in tags %}
         <a href="{{ url_for('main.tag', id=tag.id) }}">
         <button type="button" class="btn btn-info btn-md">
         {{ tag.name }}
         </button></a>
         {% endfor %}
+    </div>
+    </div>
     </p>
 </div>
 {% endblock content %}

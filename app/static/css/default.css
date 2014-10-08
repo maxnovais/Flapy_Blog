@@ -187,6 +187,6 @@ color: #bdb;
     font-size: 90% ;
 }
 
-#show_tags{
+#show_tags, #error{
     padding: 0.5em; 
 }
