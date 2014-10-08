@@ -1,0 +1,47 @@
+{% import "bootstrap/wtf.html" as wtf%}
+{% extends "admin/_base.html" %}
+
+{% block content %}
+{% include "admin/_menu.html" %}
+{% include "admin/_messages.html" %}
+<div class="col-md-4">
+    <h1>Delete</h1>
+    <p>The tag bellow are completely dropped from de database.</p>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <p>
+                <strong>Author:</strong>
+                {{ comment.name }}
+                <br>
+                <strong>Email:</strong>
+                {{ comment.email }}
+                <br>
+                <strong>Created: </strong> 
+                {{ moment(comment.created_on).fromTime(now) }}
+                <br>
+                <br>
+                {% if comment.body_html %}
+                    {{ comment.body_html | safe }}
+                {% else %}
+                    {{ comment.body }}
+                {% endif %}
+            </p>
+
+        </div>
+    </div>
+
+
+    <p><strong>You are sure?</strong></p> 
+
+    <form class="form form-horizontal" method="post" role="form">
+      {{ form.hidden_tag() }}
+      {{ wtf.form_errors(form, hiddens="only") }}
+      {{ wtf.form_field(form.submit) }} 
+       &nbsp;&nbsp;&nbsp;
+      <a href="{{ url_for('admin.all_tags') }}">No, thanks!</a>
+    </form>
+
+</div>
+{% endblock content %}
+

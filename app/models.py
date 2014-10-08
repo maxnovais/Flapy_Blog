@@ -36,7 +36,7 @@ class TrueSelf(object):
         return self
 
 
-class User(UserMixin, db.Model, TrueSelf):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
@@ -93,7 +93,8 @@ class Tag(db.Model):
 class Object(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     object_type = db.Column(db.String(30))
-    title = db.Column(db.String(255))
+    title = db.Column(db.String(100))
+    headline = db.Column(db.String(255))
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
     created_on = db.Column(db.DateTime, index=True, default=datetime.now)

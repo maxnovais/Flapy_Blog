@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, SubmitField, BooleanField
+from wtforms import TextField, SubmitField, BooleanField, SelectField
 from flask.ext.pagedown.fields import PageDownField
 from wtforms.validators import Required, Length
 
@@ -10,3 +10,9 @@ class NewComment(Form):
     publish_email = BooleanField('Publish Email')
     body = PageDownField('Body', [Required()])
     submit = SubmitField('Submit')
+
+
+class Search(Form):
+    string = TextField('Name', [Required(), Length(3, 255)])
+    category = SelectField(u'Category', choices=[('all','All'), ('posts','Posts'), ('links','Links'), ('tags','Tags')])
+    submit = SubmitField('Search')

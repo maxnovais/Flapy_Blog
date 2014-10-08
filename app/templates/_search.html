@@ -1,0 +1,26 @@
+<div id="Search" class="col xs-12 col-md-6 col-md-offset-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+      {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <strong>{{ message }}</strong>
+        </div>
+    {% endfor %}
+      <div class="row">
+        <form action="{{ url_for('main.search') }}"" method="post" name="login">
+          {{ form.hidden_tag() }}
+            <div class="col-xs-8">
+            {{ form.string(id='string', class='form-control') }}
+          </div>
+          <div class="col-xs-2">
+          {{ form.category(id='category', class='form-control') }}
+          </div>
+          <div class="col-xs-2">
+          {{ form.submit(class='form-control')}}
+          </div>
+          </form>
+          </div>
+      </div>
+    </div>
+</div>

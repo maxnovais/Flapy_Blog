@@ -20,7 +20,7 @@
         {% for comment in comments %}
           {% if comment.object.enabled==True %}
           <tr>
-              <td>{{ moment(comment.created_on).fromTime(now) }}</td>
+              <td>{{ comment.created_on.strftime('%d/%m/%Y - %H:%M') }}</td>
               <td>
                 {% if comment.publish_email==True %} 
                 <a href="mailto:{{comment.email}}">{{comment.name}}</a>

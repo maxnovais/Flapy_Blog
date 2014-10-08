@@ -11,14 +11,14 @@
 
       <table class="table">
         <tr>
-            <th>Posted In</th>
+            <th>Date</th>
             <th>Title</th>
             <th>Tags</th>
             <th></th>
         </tr>
         {% for object in objects %}
         <tr>
-            <td>{{ moment(object.created_on).fromTime(now) }}</td>
+            <td>{{object.created_on.strftime('%d/%m/%Y - %H:%M')}}</td>
             <td>{{ object.title }}</td>
             <td>
                 {% for tag in object.tags %}

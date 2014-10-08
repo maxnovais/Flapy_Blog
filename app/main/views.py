@@ -15,14 +15,31 @@ def index():
     posts = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='post', enabled=True)
     tags = Tag.query.order_by(Tag.created_on.desc())
     comments = Comment.query.filter_by(enabled=True)
+    form = forms.Search()
     return render_template(
         'index.html',
         now=now,
         links=links,
         posts=posts,
         tags=tags,
-        comments=comments
+        comments=comments,
+        form=form
         )
+
+
+@main.route('/search', methods=['POST'])
+def search():
+    form = forms.Search()
+    if not form.validate_on_submit():
+        flash('Your search must be at least 3 characters.')
+        return redirect(url_for('main.index'))
+    string = form.string.data
+    category = form.category.data
+    links = Object.query.filter(Object.title.contains(string)).filter_by(object_type='link', enabled=True)
+    posts = Object.query.filter(Object.title.contains(string)).filter_by(object_type='post', enabled=True)
+    tags = Tag.query.filter(Tag.name.contains(string))
+    return render_template('main/search.html', category=category, string= string, links=links, posts=posts, tags=tags)
+
 
 
 @main.route('/posts')

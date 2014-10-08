@@ -1,0 +1,46 @@
+{% if links.count()>0 %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Links:</strong> {{ links.count() }} found
+    </div>
+    <table class="table">
+    <tr>
+    <th>Date</th>
+    <th>Title</th>
+    <th>Tags</th>
+    <th></th>
+    </tr>
+    {% for link in links %}
+    <tr>
+    <td>{{link.created_on.strftime('%d/%m/%Y - %H:%M')}}</td>
+    <td>{{ link.title }}</td>
+    <td>
+        {% for tag in link.tags %}
+        <a href="{{ url_for('main.tag', id=tag.id) }}">
+            <button type="button" class="btn btn-info btn-xs">
+                {{ tag.name }}
+            </button>
+        </a>
+        {% endfor %}
+    </td>
+    <td>
+        {% if link.object_type=='link' %}
+            <a href="{{ link.body }}">
+                <button type="button" class="btn btn-primary btn-xs">    
+                    <span class="glyphicon glyphicon-globe"></span> Acessar
+                </button>
+            </a>
+        {% endif %}
+        <a href="{{ url_for('main.object', id=link.id) }}">
+            <button type="button" class="btn btn-success btn-xs">
+                <span class="glyphicon glyphicon-zoom-in"></span> Detalhes
+            </button>
+        </a>
+    </td>
+    </tr>
+    {% endfor %}
+    </table>
+</div>
+{% else %}
+    No links found
+{% endif %}

@@ -1,0 +1,26 @@
+{% extends "_base.html" %}
+{% block content %}
+<div class="col-md-8 col-md-offset-2">
+    <h1>Category: {{ category }}</h1> 
+    <hr>
+   <p>
+        {%if category=='all' %}
+            {% include "main/search/_tag.html" %}
+            <hr>
+            {% include "main/search/_link.html" %}
+            <hr>
+            {% include "main/search/_post.html" %}
+        {% else %}
+        {%if category=='links' %}
+            {% include "main/search/_link.html" %}
+        {% endif %}
+        {%if category=='posts' %}
+            {% include "main/search/_post.html" %}
+        {% endif %}
+        {%if category=='tags' %}
+            {% include "main/search/_tag.html" %}
+        {% endif %}
+        {% endif %}
+    </p>
+</div>
+{% endblock content %}

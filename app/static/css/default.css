@@ -181,3 +181,12 @@ color: #bdb;
 #email, #name{
     width: 60%
 }
+
+#date{
+    color: #999;
+    font-size: 90% ;
+}
+
+#show_tags{
+    padding: 0.5em; 
+}

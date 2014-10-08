@@ -7,7 +7,7 @@
       {% include "main/_messages.html" %}
       <div class="panel-body">
         {% for comment in comments.all() %}
-          Write {{ moment(comment.created_on).fromTime(now) }} by
+          Write in {{ comment.created_on.strftime('%d %B %Y - %H:%M') }} ({{ moment(comment.created_on).fromTime(now) }}) by
           {% if comment.publish_email==True %} 
           <a href="mailto:{{comment.email}}"><i>{{comment.name}}</i></a>
           {% else %}

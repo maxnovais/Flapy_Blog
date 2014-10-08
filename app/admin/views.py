@@ -71,6 +71,7 @@ def new_post():
         post = Object(
             object_type='post',
             title=form.title.data,
+            headline=form.headline.data,
             body=form.body.data,
             author=current_user,
             tags=get_tags(form.tags.data)
@@ -95,6 +96,7 @@ def edit_post(id):
         if form.validate_on_submit():
             post.body = form.body.data
             post.title = form.title.data
+            post.headline = form.headline.data
             post.last_update = datetime.datetime.now()
             post.tags = get_tags(form.tags.data)
             db.session.add(post)
@@ -287,4 +289,4 @@ def delete_comment(id):
         db.session.commit()
         flash('The comment has been deleted')
         return redirect(url_for('admin.all_comments'))
-    return render_template('admin/comment/delete.html', object=query, form=form, now=now)
+    return render_template('admin/comment/delete.html', comment=query, form=form, now=now)

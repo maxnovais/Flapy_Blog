@@ -1,6 +1,8 @@
 {% extends "_basebig.html" %}
 {% block content %}
 
+{% include "_search.html" %}
+
 <div id="dashboard" class="col-md-10 col-lg-offset-1">
     <p><h2>Últimos Artigos</h2></p>
     {% for post in posts.limit(3) %}
@@ -9,13 +11,7 @@
             <div class="panel-body">
                 <div class="col-sm-12">
                     <h4>{{ post.title }}</h4>
-                    <p>
-                    {% if post.body_html %}
-                        {{ post.body_html[:255] | safe }}
-                    {% else %}
-                        {{ post.body[:255] }}
-                    {% endif %}
-                    (...)</p>
+                    <p>{{ post.headline }}</p>
                     <a href="{{ url_for('main.object', id=post.id) }}">
                     <button type="button" class="btn btn-success btn-xs">
                         <span class="glyphicon glyphicon-zoom-in"></span> Continuar Lendo
@@ -50,6 +46,7 @@
                 <div class="panel-body">
                     <div class="col-sm-12">
                         <h4>{{ link.title }}</h4>
+                        <a href="{{ url_for('main.object', id=link.id) }}"
                         <button type="button" class="btn btn-success btn-xs">
                             <span class="glyphicon glyphicon-zoom-in"></span> Detalhes
                         </button>
