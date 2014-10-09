@@ -5,39 +5,26 @@ from flask.ext.security import Security, SQLAlchemyUserDatastore
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.moment import Moment
 from flask.ext.pagedown import PageDown
-from config import config
 
+app = Flask(__name__)
+app.config.from_object('config')
 
-db = SQLAlchemy()
-bootstrap = Bootstrap()
-security = Security()
-moment = Moment()
-pagedown = PageDown()
-mail = Mail()
+db = SQLAlchemy(app)
+bootstrap = Bootstrap(app)
+security = Security(app)
+moment = Moment(app)
+pagedown = PageDown(app)
+mail = Mail(app)
 
+from models import User, Role
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security.init_app(
+    app,
+    user_datastore,
+    )
 
-def create_app(config_name):
-    app = Flask(__name__)
-    app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
+from .main import main as main_blueprint
+app.register_blueprint(main_blueprint)
 
-    bootstrap.init_app(app)
-    db.init_app(app)
-    moment.init_app(app)
-    pagedown.init_app(app)
-    mail.init_app(app)
-
-    from models import User, Role
-    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-    security.init_app(
-        app,
-        user_datastore,
-        )
-
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
-
-    from .admin import admin as admin_blueprint
-    app.register_blueprint(admin_blueprint, url_prefix='/admin')
-
-    return app
+from .admin import admin as admin_blueprint
+app.register_blueprint(admin_blueprint, url_prefix='/admin')

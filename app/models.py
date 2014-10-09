@@ -1,7 +1,7 @@
 from datetime import datetime
 from . import db
+from config import COMMENTS_INITIAL_ENABLED
 from flask.ext.security import UserMixin, RoleMixin
-from config import Config
 from markdown import markdown
 import bleach
 
@@ -114,7 +114,7 @@ class Comment(db.Model):
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
     created_on = db.Column(db.DateTime, index=True, default=datetime.now)
-    enabled = db.Column(db.Boolean, default=Config.COMMENTS_INITIAL_ENABLED)
+    enabled = db.Column(db.Boolean, default=COMMENTS_INITIAL_ENABLED)
     object_id = db.Column(db.Integer, db.ForeignKey('object.id'))
 
     def __repr__(self):

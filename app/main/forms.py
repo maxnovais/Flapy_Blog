@@ -14,5 +14,4 @@ class NewComment(Form):
 
 class Search(Form):
     string = TextField('Name', [Required(), Length(3, 255)])
-    category = SelectField(u'Category', choices=[('all','All'), ('posts','Posts'), ('links','Links'), ('tags','Tags')])
     submit = SubmitField('Search')

@@ -4,7 +4,7 @@
 {% include "_search.html" %}
 
 <div id="dashboard" class="col-md-10 col-lg-offset-1">
-    <p><h2>Last Posts</h2></p>
+    <p><h2>Lastest Posts</h2></p>
     {% for post in posts.limit(3) %}
     <div class="col-md-4 col-sm-12">
         <div class="panel panel-default">
@@ -39,7 +39,7 @@
 
 
 <div id="dashboard" class="col-md-10 col-lg-offset-1">
-    <p><h2>Last Links</h2></p>
+    <p><h2>Lastest Links</h2></p>
         {% for link in links.limit(4) %}
             <div class="col-md-3 col-sm-6">
             <div class="panel panel-default">
@@ -71,5 +71,7 @@
         </div>
         {% endfor %}
 </div>
+<br>
+<br>
 {% endblock content %}
 

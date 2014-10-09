@@ -53,7 +53,7 @@ body {
 }
 
 .avatar {
-    float: left;
+    float: center;
     margin-top: 0.5em;
     margin-right: 1em;
     position: relative;
@@ -189,4 +189,13 @@ color: #bdb;
 
 #show_tags, #error{
     padding: 0.5em; 
+}
+
+#site-content-menu{
+    text-align: center;
+    padding: 0.5em;
+}
+
+#container{
+    padding: 0.1em;
 }

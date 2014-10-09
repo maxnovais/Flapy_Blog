@@ -12,10 +12,10 @@ body {
 }
 
 #body, #flask-pagedown-body, #flask-pagedown-about {
-    width: 500px;
+    width: 100%;
     height: 250px;
 }
 
 #title {
-    width: 350px;
+    width: 100%;
 }
