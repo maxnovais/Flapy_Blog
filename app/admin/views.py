@@ -68,7 +68,6 @@ def posts():
 @admin.route('/objects/posts/new', methods=['GET', 'POST'])
 @login_required
 def new_post():
-    label_ob = 'Post'
     form = forms.NewPost()
     if form.validate_on_submit():
         post = Object(
@@ -83,13 +82,12 @@ def new_post():
         db.session.commit()
         flash('Your post has been created.')
         return redirect(url_for('admin.all'))
-    return render_template('admin/object/new.html', form=form, label=label_ob)
+    return render_template('admin/object/new_post.html', form=form,)
 
 
 @admin.route('/objects/posts/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_post(id):
-    label_ob = 'Post'
     form = forms.EditPost()
     post = Object.query.filter_by(id=id).first_or_404()
     if post.object_type == 'link':
@@ -112,7 +110,8 @@ def edit_post(id):
     form.body.data = post.body
     form.tags.data = " ".join(tags)
     form.title.data = post.title
-    return render_template('admin/object/edit.html', form=form, label=label_ob)
+    form.headline.data = post.headline
+    return render_template('admin/object/edit_post.html', form=form)
 
 
 @admin.route('/objects/links')
@@ -131,7 +130,6 @@ def links():
 @admin.route('/objects/links/new', methods=['GET', 'POST'])
 @login_required
 def new_link():
-    label_ob = 'Link'
     form = forms.NewLink()
     if form.validate_on_submit():
         link = Object(
@@ -145,13 +143,12 @@ def new_link():
         db.session.commit()
         flash('Your link has been created')
         return redirect(url_for('admin.all'))
-    return render_template('admin/object/new.html', form=form, label=label_ob)
+    return render_template('admin/object/new_link.html', form=form)
 
 
 @admin.route('/objects/links/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_link(id):
-    label_ob = 'Link'
     form = forms.EditLink()
     link = Object.query.filter_by(id=id).first_or_404()
     if link.object_type == 'post':
@@ -174,7 +171,7 @@ def edit_link(id):
     form.link.data = link.body
     form.tags.data = " ".join(tags)
     form.title.data = link.title
-    return render_template('admin/object/edit.html', form=form, label=label_ob)
+    return render_template('admin/object/edit_link.html', form=form)
 
 
 @admin.route('/objects/visible/<int:id>')
