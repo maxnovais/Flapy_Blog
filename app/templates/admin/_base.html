@@ -11,6 +11,15 @@
     {{ moment.include_moment() }}
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+    <!-- fix responsive-tables on Firefox -->
+    <script>
+
+        @-moz-document url-prefix() {
+            fieldset { display: table-cell; }
+        }
+    </script>
+
     {{ pagedown.html_head() }}
 {% endblock head %}
 

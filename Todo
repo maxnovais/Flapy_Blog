@@ -4,13 +4,13 @@ TODO - Now
 [x] End of comment editor
 [x] CSS of about-me
 [x] Fix login validator
-[ ] Refactor some forms
+[x] Refactor some forms
 
 ---> Main Blueprint
 [x] Fix the comment insert
 [x] Search on index
 [x] Create page of errors
-[ ] Some otimizations of html body
+[x] Some otimizations of html body
 
 ---> App
 [x] Paginations

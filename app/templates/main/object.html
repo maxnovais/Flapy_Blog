@@ -13,7 +13,7 @@
                 ({{ moment(object.created_on).fromTime(now) }})
                 {% if object.last_update!=None %}
                     <i>
-                        - Last update in {{  object.last_update.strftime('%d/%m/%Y - %H:%M') }}
+                        - Atualizado em {{  object.last_update.strftime('%d/%m/%Y - %H:%M') }}
                         ({{ moment(object.created_on).fromTime(now) }})
                     </i>
                 {% endif %}
@@ -49,7 +49,7 @@
     <div class="col-md-3">
         <div id="tech-info-title" class="well well-sm">
             <h4 >{{ object.title }}</h4>
-            by {{object.author.first_name}} in {{ moment(object.created_on).fromTime(now) }}
+            por {{object.author.first_name}} em {{ moment(object.created_on).fromTime(now) }}
             <br>
 
             <hr>

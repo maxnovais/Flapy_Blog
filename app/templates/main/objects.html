@@ -6,45 +6,47 @@
    <p>
      <div class="panel panel-default">
       <div class="panel-heading">
-        <strong>Total:</strong> {{ count }} entries
+        <strong>Total:</strong> {{ count }} entradas
       </div>
 
-      <table class="table">
-        <tr>
-            <th>Date</th>
-            <th>Title</th>
-            <th>Tags</th>
-            <th></th>
-        </tr>
-        {% for object in objects %}
-        <tr>
-            <td>{{object.created_on.strftime('%d/%m/%Y - %H:%M')}}</td>
-            <td>{{ object.title }}</td>
-            <td>
-                {% for tag in object.tags %}
-                <a href="{{ url_for('main.tag', id=tag.id) }}">
-                <button type="button" class="btn btn-info btn-xs">
-                {{ tag.name }}
-                </button></a>
-                {% endfor %}
-            </td>
-            <td>
-                {% if object.object_type=='link' %}
-                <a href="{{ object.body }}">
-                        <button type="button" class="btn btn-primary btn-xs">    
-                        <span class="glyphicon glyphicon-globe"></span> Go
-                        </button>
-                </a>
-                {% endif %}
-                <a href="{{ url_for('main.object', id=object.id) }}">
-                <button type="button" class="btn btn-success btn-xs">
-                <span class="glyphicon glyphicon-zoom-in"></span> Details
-                </button>
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-      </table>
+      <div class="table-responsive">
+            <table class="table table-hover">
+            <tr>
+                <th>Data</th>
+                <th>Título</th>
+                <th>Tags</th>
+                <th></th>
+            </tr>
+            {% for object in objects %}
+            <tr>
+                <td>{{object.created_on.strftime('%d/%m/%Y - %H:%M')}}</td>
+                <td>{{ object.title }}</td>
+                <td>
+                    {% for tag in object.tags %}
+                    <a href="{{ url_for('main.tag', id=tag.id) }}">
+                    <button type="button" class="btn btn-info btn-xs">
+                    {{ tag.name }}
+                    </button></a>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% if object.object_type=='link' %}
+                    <a href="{{ object.body }}">
+                            <button type="button" class="btn btn-primary btn-xs">    
+                            <span class="glyphicon glyphicon-globe"></span> Acessar
+                            </button>
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('main.object', id=object.id) }}">
+                    <button type="button" class="btn btn-success btn-xs">
+                    <span class="glyphicon glyphicon-zoom-in"></span> Detalhes
+                    </button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
     </div>
         <div class="pagination">
         {% if label=='Posts' %}

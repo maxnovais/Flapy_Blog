@@ -2,12 +2,12 @@
 <div id="comments">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Comments ({{ comments.count() }})</h3>
+        <h3 class="panel-title">Comentários ({{ comments.count() }})</h3>
       </div>
       {% include "main/_messages.html" %}
       <div class="panel-body">
         {% for comment in comments.all() %}
-          Write in {{ comment.created_on.strftime('%d %B %Y - %H:%M') }} ({{ moment(comment.created_on).fromTime(now) }}) by
+          Escrito em {{ comment.created_on.strftime('%d/%m/%Y as %H:%M') }} ({{ moment(comment.created_on).fromTime(now) }}) by
           {% if comment.publish_email==True %} 
           <a href="mailto:{{comment.email}}"><i>{{comment.name}}</i></a>
           {% else %}
@@ -21,7 +21,7 @@
                 {% endif %}
           <hr>
           {% endfor %}
-          <h1>New Comment</h1>
+          <h1>Novo comentário</h1>
             {{ wtf.quick_form(form) }}
           </div>
       </div>

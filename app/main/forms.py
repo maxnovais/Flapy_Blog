@@ -5,13 +5,13 @@ from wtforms.validators import Required, Length
 
 
 class NewComment(Form):
-    name = TextField('Name', [Required(), Length(1, 255)])
+    name = TextField('Nome', [Required(), Length(1, 255)])
     email = TextField('Email', [Required(), Length(1, 255)])
-    publish_email = BooleanField('Publish Email')
-    body = PageDownField('Body', [Required()])
-    submit = SubmitField('Submit')
+    publish_email = BooleanField('Publicar Email')
+    body = PageDownField('Comentario', [Required()])
+    submit = SubmitField('Enviar')
 
 
 class Search(Form):
-    string = TextField('Name', [Required(), Length(3, 255)])
-    submit = SubmitField('Search')
+    string = TextField('String', [Required(), Length(3, 255)])
+    submit = SubmitField('Buscar')

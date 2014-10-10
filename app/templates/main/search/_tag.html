@@ -1,7 +1,12 @@
 {% if tags.count()>0 %}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <strong>Tags:</strong> {{ tags.count() }} found
+        <strong>Tags:</strong> 
+        {% if tags.count()>1 %}
+            {{ tags.count() }} encontrado(s)
+        {% else %}
+            {{ tags.count() }} encontrado
+        {% endif %}
     </div>
     <div id="show_tags">
     {% for tag in tags %}
@@ -15,5 +20,5 @@
     </div>
 </div>
 {% else %}
-    No tags found
+    Nenhuma tag encontrada.
 {% endif %}

@@ -29,7 +29,7 @@ MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'username@gmail.com'
 MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'password'
 
 #Blog Settings
-COMMENTS_INITIAL_ENABLED = True
+COMMENTS_INITIAL_ENABLED = False
 ADMIN_PER_PAGE = 20
 GUEST_PER_PAGE = 10
 

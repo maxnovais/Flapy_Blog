@@ -31,7 +31,7 @@ def index():
 def search():
     form = forms.Search()
     if not form.validate_on_submit():
-        flash('Your search must be at least 3 characters.')
+        flash('Sua busca deve ter ao menos 3 caracteres.')
         return redirect(url_for('main.index'))
     string = form.string.data
     links = Object.query.filter(Object.title.contains(string)).filter_by(object_type='link', enabled=True)
@@ -116,7 +116,7 @@ def object(id):
             )
         db.session.add(new_comment)
         db.session.commit()
-        flash('Your comment has been created.')
+        flash('Seu comentario foi encaminhado, aguarde ser autorizado pela moderacao para ser publicado.')
         return redirect(url_for('main.object', id=query.id))
     comments = query.comments.filter_by(enabled=True)
     return render_template('main/object.html', now=now, object=query, comments=comments, form=form)

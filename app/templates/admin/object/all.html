@@ -20,54 +20,56 @@
         | <strong>Total:</strong> {{ count }} entries
       </div>
 
-      <table class="table">
-        <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Last Update</th>
-            <th>Visible</th>
-            <th>Modify</th>
-        </tr>
-        {% for object in objects %}
-        <tr>
-            <td>{{ moment(object.created_on).fromTime(now) }}</td>
-            {% if object.object_type == 'post' %}
-              <td><a href="{{ url_for ('admin.posts') }}">{{ object.object_type }}</td>
-            {% else %}
-              <td><a href="{{ url_for ('admin.links') }}">{{ object.object_type }}</td>
-            {% endif %}
-            <td>{{ object.title }}</td>
-            <td>{{ object.author.first_name }}
-            <td>
-              {% if object.last_update == None %}
-                -
-              {% else %}
-                {{ moment(object.last_update).fromTime(now) }}
-              {% endif %}
-            </td>
-            <td>{{ object.enabled }}</td>
-            <td>
+      <div class="table-responsive">
+          <table class="table table-hover">
+          <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Last Update</th>
+              <th>Visible</th>
+              <th>Modify</th>
+          </tr>
+          {% for object in objects %}
+          <tr>
+              <td>{{ moment(object.created_on).fromTime(now) }}</td>
               {% if object.object_type == 'post' %}
-                <a href="{{ url_for ('admin.edit_post', id=object.id) }}">Edit</a>
+                <td><a href="{{ url_for ('admin.posts') }}">{{ object.object_type }}</td>
               {% else %}
-                <a href="{{ url_for ('admin.edit_link', id=object.id) }}">Edit</a>
+                <td><a href="{{ url_for ('admin.links') }}">{{ object.object_type }}</td>
               {% endif %}
-              |
-              <a href="{{ url_for('admin.turn_visible', id=object.id) }}">
-                {% if object.enabled == True %}
-                  Disable
+              <td>{{ object.title }}</td>
+              <td>{{ object.author.first_name }}
+              <td>
+                {% if object.last_update == None %}
+                  -
                 {% else %}
-                  Enable
+                  {{ moment(object.last_update).fromTime(now) }}
                 {% endif %}
-              </a>
-              |
-              <a href="{{ url_for('admin.delete', id=object.id) }}">Delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-      </table>
+              </td>
+              <td>{{ object.enabled }}</td>
+              <td>
+                {% if object.object_type == 'post' %}
+                  <a href="{{ url_for ('admin.edit_post', id=object.id) }}">Edit</a>
+                {% else %}
+                  <a href="{{ url_for ('admin.edit_link', id=object.id) }}">Edit</a>
+                {% endif %}
+                |
+                <a href="{{ url_for('admin.turn_visible', id=object.id) }}">
+                  {% if object.enabled == True %}
+                    Disable
+                  {% else %}
+                    Enable
+                  {% endif %}
+                </a>
+                |
+                <a href="{{ url_for('admin.delete', id=object.id) }}">Delete</a>
+              </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </td>
     </div>
     </p>
 </div>
