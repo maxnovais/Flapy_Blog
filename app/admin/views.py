@@ -278,7 +278,7 @@ def turn_visible_comment(id):
     return redirect(url_for('admin.all_comments'))
 
 
-@admin.route('/comments/delete/<int:id>')
+@admin.route('/comments/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_comment(id):
     now = datetime.datetime.now()

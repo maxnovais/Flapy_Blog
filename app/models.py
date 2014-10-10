@@ -27,8 +27,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255))
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
-    about = db.Column(db.String)
-    about_html = db.Column(db.String)
+    about = db.Column(db.Text)
+    about_html = db.Column(db.Text)
     location = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
@@ -48,7 +48,7 @@ class User(db.Model, UserMixin):
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                                 'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                                'h1', 'h2', 'h3', 'p']
+                                'h1', 'h2', 'h3', 'h4', 'h5', 'hr', 'p']
         target.about_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
@@ -94,7 +94,7 @@ class Object(db.Model):
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                                 'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                                'h1', 'h2', 'h3', 'p']
+                                'h1', 'h2', 'h3', 'h4', 'h5', 'hr', 'p']
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))

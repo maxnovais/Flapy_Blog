@@ -8,7 +8,7 @@ class EditProfileForm(Form):
     first_name = TextField('First Name', [Required(), Length(1, 255)])
     last_name = TextField('Last Name', [Required(), Length(1, 255)])
     location = TextField('Location', [Length(0, 255)])
-    about = PageDownField('About', [Length(0, 255)])
+    about = PageDownField('About')
     submit = SubmitField('Submit')
 
 
