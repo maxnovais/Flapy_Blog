@@ -14,7 +14,7 @@
                 {% if object.last_update!=None %}
                     <i>
                         - Atualizado em {{  object.last_update.strftime('%d/%m/%Y - %H:%M') }}
-                        ({{ moment(object.created_on).fromTime(now) }})
+                        ({{ moment(object.last_update).fromTime(now) }})
                     </i>
                 {% endif %}
             </span>
