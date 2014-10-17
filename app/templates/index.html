@@ -1,4 +1,10 @@
 {% extends "_basebig.html" %}
+
+{% block metas %}
+    {{ super() }}
+    <meta name="keywords" content="{% for tag in tags[:15] %}{{ tag.name }},{% endfor %}">
+{% endblock metas %}
+
 {% block content %}
 
 {% include "_search.html" %}

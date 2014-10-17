@@ -1,5 +1,11 @@
 {% extends "_base.html" %}
 {% import "_macros.html" as macros %}
+
+{% block metas %}
+    {{ super() }}
+    <meta name="keywords" content="{% for tag in tags[:15] %}{{ tag.name }},{% endfor %}">
+{% endblock metas %}
+
 {% block content %}
 <div class="col-md-8 col-md-offset-2">
     <h1>{{ label }}</h1>

@@ -1,4 +1,10 @@
 {% extends "_base.html" %}
+
+{% block metas %}
+    {{ super() }}
+    <meta name="keywords" content="{% for tag in object.tags[:15] %}{{ tag.name }},{% endfor %}">
+{% endblock metas %}
+
 {% block content %}
 <div class="col-md-8 col-md-offset-2">
    <div id="content" class="col-md-9">

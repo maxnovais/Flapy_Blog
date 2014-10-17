@@ -2,8 +2,17 @@
 
 {% block title %}Max's Flapy Blog{% endblock %}
 
+{% block metas %}
+{{ super() }}
+    <meta http-equiv="content-language" content="pt-br">
+    <meta charset="UTF-8">
+    <meta name="description" content="Blog de anotações de um estudante de desenvolvimento web, o site contém artigos sobre tecnlogia e outros assuntos nerds.">
+    <meta name="author" content="Maxwell Novais">
+{% endblock metas %}
+
 {% block head %}
     {{ super() }}
+
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 

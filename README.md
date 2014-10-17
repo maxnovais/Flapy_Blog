@@ -1,5 +1,4 @@
 #Flapy_Blog
-- - -
 
 Flapy_Blog é um pequeno blog feito utilizando Python e o micro(nem tão micro)-framework Flask.
 
@@ -7,7 +6,7 @@ Flapy_Blog é um pequeno blog feito utilizando Python e o micro(nem tão micro)-
 
 
 ##Versão
-1.0c
+1.0d
 
 
 ##Componentes utilizados:

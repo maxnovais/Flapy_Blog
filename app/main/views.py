@@ -49,7 +49,8 @@ def posts():
     pagination = query.paginate(page, per_page=GUEST_PER_PAGE, error_out=False)
     objects = pagination.items
     count = query.count()
-    return render_template('main/objects.html', now=now, objects=objects, pagination=pagination, count=count, label="Posts")
+    all_tags = Tag.query.all()
+    return render_template('main/objects.html', tags=all_tags, now=now, objects=objects, pagination=pagination, count=count, label="Posts")
 
 
 @main.route('/links')
@@ -60,7 +61,8 @@ def links():
     pagination = query.paginate(page, per_page=GUEST_PER_PAGE, error_out=False)
     objects = pagination.items
     count = query.count()
-    return render_template('main/objects.html', now=now, objects=objects, pagination=pagination, count=count, label="Links")
+    all_tags = Tag.query.all()
+    return render_template('main/objects.html', tags=all_tags, now=now, objects=objects, pagination=pagination, count=count, label="Links")
 
 
 @main.route('/tags')
