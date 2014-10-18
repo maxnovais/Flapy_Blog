@@ -37,7 +37,7 @@
                     </button>
                 </a>
             {% endif %}
-            <a href="{{ url_for('main.object', id=link.id) }}">
+            <a href="{{ url_for('main.object', string=link.slug_title) }}">
                 <button type="button" class="btn btn-success btn-xs">
                     <span class="glyphicon glyphicon-zoom-in"></span> Details
                 </button>

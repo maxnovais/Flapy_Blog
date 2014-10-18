@@ -30,7 +30,7 @@
             {% endfor %}
         </td>
         <td>
-            <a href="{{ url_for('main.object', id=post.id) }}">
+            <a href="{{ url_for('main.object', string=post.slug_title) }}">
                 <button type="button" class="btn btn-success btn-xs">
                     <span class="glyphicon glyphicon-zoom-in"></span> Detalhes
                 </button>
