@@ -6,7 +6,7 @@ Flapy_Blog é um pequeno blog feito utilizando Python e o micro(nem tão micro)-
 
 
 ##Versão
-1.0d
+1.1
 
 
 ##Componentes utilizados:

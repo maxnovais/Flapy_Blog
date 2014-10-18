@@ -79,7 +79,7 @@ class Object(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     object_type = db.Column(db.String(30))
     title = db.Column(db.String(100), unique=True)
-    slug_tittle = db.Column(db.String(255), unique=True)
+    slug_title = db.Column(db.String(255), unique=True)
     headline = db.Column(db.String(255))
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)

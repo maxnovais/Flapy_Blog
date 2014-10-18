@@ -101,11 +101,11 @@ def about():
     return render_template('main/about.html', user=query)
 
 
-@main.route('/object/<int:id>', methods=['GET', 'POST'])
-def object(id):
+@main.route('/object/<string>', methods=['GET', 'POST'])
+def object(string):
     form = forms.NewComment()
     now = datetime.datetime.now()
-    query = Object.query.get_or_404(id)
+    query = Object.query.filter_by(slug_title=string).first_or_404()
     if query.enabled is False:
         return redirect(url_for('main.index'))
     if form.validate_on_submit():
@@ -119,6 +119,6 @@ def object(id):
         db.session.add(new_comment)
         db.session.commit()
         flash('Seu comentario foi encaminhado, aguarde ser autorizado pela moderacao para ser publicado.')
-        return redirect(url_for('main.object', id=query.id))
+        return redirect(url_for('main.object', string=query.slug_title))
     comments = query.comments.filter_by(enabled=True)
     return render_template('main/object.html', now=now, object=query, comments=comments, form=form)

@@ -98,7 +98,7 @@ def edit_post(id):
         if form.validate_on_submit():
             post.body = form.body.data
             post.title = form.title.data
-            post.slug_title = slugify(form.title.data),
+            post.slug_title = slugify(form.title.data)
             post.headline = form.headline.data
             post.last_update = datetime.datetime.now()
             post.tags = get_tags(form.tags.data)
@@ -161,7 +161,7 @@ def edit_link(id):
         if form.validate_on_submit():
             link.body = form.link.data
             link.title = form.title.data
-            link.slug_title = slugify(form.title.data),
+            link.slug_title = slugify(form.title.data)
             link.last_update = datetime.datetime.now()
             link.tags = get_tags(form.tags.data)
             link.author = current_user
