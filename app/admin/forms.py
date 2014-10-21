@@ -12,7 +12,7 @@ class EditProfileForm(Form):
     submit = SubmitField('Submit')
 
 
-class NewPost(Form):
+class Post(Form):
     title = TextField('Title', [Required(), Length(1, 100)])
     tags = TextField('Tags', [Length(0, 255)])
     headline = TextField('Headline', [Required(), Length(1, 255)])
@@ -20,29 +20,14 @@ class NewPost(Form):
     submit = SubmitField('Submit')
 
 
-class EditPost(Form):
-    title = TextField('Title', [Required(), Length(1, 100)])
-    tags = TextField('Tags', [Length(0, 255)])
-    headline = TextField('Headline', [Required(), Length(1, 255)])
-    body = PageDownField('Post', [Required()])
-    submit = SubmitField('Submit')
-
-
-class NewLink(Form):
+class Link(Form):
     title = TextField('Title', [Required(), Length(1, 100)])
     tags = TextField('Tags', [Length(0, 255)])
     link = TextField('Link', [Required()])
     submit = SubmitField('Submit')
 
 
-class EditLink(Form):
-    title = TextField('Title', [Required(), Length(1, 100)])
-    tags = TextField('Tags', [Length(0, 255)])
-    link = TextField('Link', [Required()])
-    submit = SubmitField('Submit')
-
-
-class EditTag(Form):
+class Tag(Form):
     name = TextField('Title', [Required(), Length(1, 30)])
     submit = SubmitField('Submit')
 

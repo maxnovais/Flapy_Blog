@@ -68,7 +68,7 @@ def posts():
 @admin.route('/objects/posts/new', methods=['GET', 'POST'])
 @login_required
 def new_post():
-    form = forms.NewPost()
+    form = forms.Post()
     if form.validate_on_submit():
         post = Object(
             object_type='post',
@@ -89,7 +89,7 @@ def new_post():
 @admin.route('/objects/posts/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_post(id):
-    form = forms.EditPost()
+    form = forms.Post()
     post = Object.query.filter_by(id=id).first_or_404()
     if post.object_type == 'link':
         flash('This object is a Hiperlink, select this object bellow')
@@ -132,7 +132,7 @@ def links():
 @admin.route('/objects/links/new', methods=['GET', 'POST'])
 @login_required
 def new_link():
-    form = forms.NewLink()
+    form = forms.Link()
     if form.validate_on_submit():
         link = Object(
             object_type='link',
@@ -152,7 +152,7 @@ def new_link():
 @admin.route('/objects/links/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_link(id):
-    form = forms.EditLink()
+    form = forms.Link()
     link = Object.query.filter_by(id=id).first_or_404()
     if link.object_type == 'post':
         flash('This object is a Post, select this object bellow')
@@ -226,7 +226,7 @@ def all_tags():
 @admin.route('/tags/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_tag(id):
-    form = forms.EditTag()
+    form = forms.Tag()
     tag = Tag.query.filter_by(id=id).first_or_404()
     if form.validate_on_submit():
         tag.name = form.name.data
