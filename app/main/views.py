@@ -1,30 +1,36 @@
-from . import main
-from flask import render_template, url_for, redirect, flash, request
-from .. import db
-from . import forms
-from ..models import Object, Tag, Comment, User
+# utf-8
+# Python imports
 import datetime
+
+# Framework imports
+from flask import render_template, url_for, redirect, flash, request
+
+# App imports
+from app.main import main
+from app import db
+from app.main import forms
+from app.main.helpers import paginate
+from app.models import Object, Tag, Comment, User
+from app.services.objects import *
+from app.services.tags import *
 from config import GUEST_PER_PAGE
 
 
 # Views
 @main.route('/')
 def index():
-    now = datetime.datetime.now()
-    links = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='link', enabled=True)
-    posts = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='post', enabled=True)
-    tags = Tag.query.order_by(Tag.created_on.desc())
-    comments = Comment.query.filter_by(enabled=True)
+    links = get_objects('link', True)
+    posts = get_objects('post', True)
+    tags = get_all_tags()
     form = forms.Search()
-    return render_template(
-        'index.html',
-        now=now,
-        links=links,
-        posts=posts,
-        tags=tags,
-        comments=comments,
-        form=form
-        )
+    comments = Comment.query.order_by(Comment.created_on.desc()).filter_by(enabled=True)
+    return render_template('index.html',
+                           now=datetime.datetime.now(),
+                           links=links,
+                           posts=posts,
+                           tags=tags,
+                           comments=comments,
+                           form=form)
 
 
 @main.route('/search', methods=['POST'])
@@ -34,54 +40,65 @@ def search():
         flash('Sua busca deve ter ao menos 3 caracteres.')
         return redirect(url_for('main.index'))
     string = form.string.data
-    links = Object.query.filter(Object.title.contains(string)).filter_by(object_type='link', enabled=True)
-    posts = Object.query.filter(Object.title.contains(string)).filter_by(object_type='post', enabled=True)
-    tags = Tag.query.filter(Tag.name.contains(string))
-    return render_template('main/search.html', string= string, links=links, posts=posts, tags=tags)
-
+    links = search_items(string, 'link', True)
+    posts = search_items(string, 'post', True)
+    tags = search_tags(string)
+    return render_template('main/search.html',
+                           string=string,
+                           links=links,
+                           posts=posts,
+                           tags=tags)
 
 
 @main.route('/posts')
 def posts():
-    now = datetime.datetime.now()
-    query = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='post', enabled=True)
-    page = request.args.get('page', 1, type=int)
-    pagination = query.paginate(page, per_page=GUEST_PER_PAGE, error_out=False)
-    objects = pagination.items
-    count = query.count()
-    all_tags = Tag.query.all()
-    return render_template('main/objects.html', tags=all_tags, now=now, objects=objects, pagination=pagination, count=count, label="Posts")
+    query = get_objects('post', True)
+    pagination = paginate(query, GUEST_PER_PAGE)
+    return render_template('main/objects.html',
+                           tags=get_all_tags(),
+                           now=datetime.datetime.now(),
+                           objects=pagination.items,
+                           pagination=pagination,
+                           count=query.count(),
+                           label='Posts')
 
 
 @main.route('/links')
 def links():
-    now = datetime.datetime.now()
-    query = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='link', enabled=True)
-    page = request.args.get('page', 1, type=int)
-    pagination = query.paginate(page, per_page=GUEST_PER_PAGE, error_out=False)
-    objects = pagination.items
-    count = query.count()
-    all_tags = Tag.query.all()
-    return render_template('main/objects.html', tags=all_tags, now=now, objects=objects, pagination=pagination, count=count, label="Links")
+    query = get_objects('link', True)
+    pagination = paginate(query, GUEST_PER_PAGE)
+    return render_template('main/objects.html',
+                           tags=get_all_tags(),
+                           now=datetime.datetime.now(),
+                           objects=pagination.items,
+                           pagination=pagination,
+                           count=query.count(),
+                           label='Links')
 
 
 @main.route('/tags')
 def tags():
-    query = Tag.query.all()
-    return render_template('main/tags.html', tags=query)
+    return render_template('main/tags.html',
+                           tags=get_all_tags())
 
 
 @main.route('/tag/<int:id>')
 def tag(id):
-    now = datetime.datetime.now()
-    tag = Tag.query.get_or_404(id)
-    query = Object.query.filter(Object.tags.contains(tag)).filter_by(enabled=True)
-    page = request.args.get('page', 1, type=int)
-    pagination = query.paginate(page, per_page=GUEST_PER_PAGE, error_out=False)
-    objects = pagination.items
-    return render_template('main/tag.html', id=id, now=now, objects=objects, pagination=pagination, label=tag.name)
+    tag = get_tag_by_id(id)
+    query = get_objects_by_tag(tag, True)
+    pagination = paginate(query)
+    return render_template('main/tag.html',
+                           id=id,
+                           now=datetime.datetime.now(),
+                           objects=pagination.items,
+                           pagination=pagination,
+                           label=tag.name)
 
 
+@main.route('/about')
+def about():
+    query = User.query.get_or_404(1)
+    return render_template('main/about.html', user=query)
 
 
 @main.route('/comments')
@@ -93,12 +110,6 @@ def comments():
     comments = pagination.items
     count = query.count()
     return render_template('main/comments.html', count=count, now=now, comments=comments, pagination=pagination)
-
-
-@main.route('/about')
-def about():
-    query = User.query.get_or_404(1)
-    return render_template('main/about.html', user=query)
 
 
 @main.route('/object/<string>', methods=['GET', 'POST'])

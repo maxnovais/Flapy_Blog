@@ -21,8 +21,16 @@ def get_object_by_id(id):
     return query
 
 
-def get_objects_by_tag(tag):
-    query = Object.query.filter(Object.tags.contains(tag)).all()
+def get_objects_by_tag(tag, enabled=None):
+    if enabled:
+        query = Object.query.filter(Object.tags.contains(tag)).filter_by(enabled=enabled)
+    else:
+        query = Object.query.filter(Object.tags.contains(tag)).all()
+    return query
+
+
+def search_items(string, type_item=None, enabled=None):
+    query = Object.query.filter(Object.title.contains(string)).filter_by(object_type=type_item, enabled=enabled)
     return query
 
 
