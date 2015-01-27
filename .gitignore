@@ -2,6 +2,7 @@
 *.sqlite
 config.py
 venv
+.venv
 migrations
 *.sublime*
 *~

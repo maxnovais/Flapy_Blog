@@ -26,6 +26,5 @@ html5lib==0.999
 itsdangerous==0.24
 mccabe==0.2.1
 passlib==1.6.2
-psycopg2==2.5.4
 six==1.8.0
 wsgiref==0.1.2

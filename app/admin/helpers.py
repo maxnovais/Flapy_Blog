@@ -1,21 +1,29 @@
-from ..models import Tag, User
+# utf-8
+# Python Imports
 import re
 from unidecode import unidecode
-from .. import db
+
+# Framework Imports
+from flask import request
+
+# App Imports
+from config import ADMIN_PER_PAGE
+from app.models import Tag, User
+from app import db
 
 
 def get_tags(form_tags_data):
-    stringtags = form_tags_data
-    stringtags = stringtags.split(' ')
-    tagobjects = []
-    for strtag in stringtags:
+    string_tags = form_tags_data
+    string_tags = string_tags.split(' ')
+    tag_objects = []
+    for strtag in string_tags:
         exists = Tag.query.filter_by(name=strtag).first()
         if not exists:
             exists = Tag(name=strtag)
             db.session.add(exists)
             db.session.commit()
-        tagobjects.append(exists)
-    return tagobjects
+        tag_objects.append(exists)
+    return tag_objects
 
 
 def get_current_user(c_user):
@@ -33,3 +41,9 @@ def slugify(text, delim=u'-'):
     for word in _punct_re.split(text.lower()):
         result.extend(unidecode(word).split())
     return unicode(delim.join(result))
+
+
+def Paginate_Objects(query):
+    page = request.args.get('page', 1, type=int)
+    pagination = query.paginate(page, per_page=ADMIN_PER_PAGE, error_out=False)
+    return pagination

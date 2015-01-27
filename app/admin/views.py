@@ -1,13 +1,20 @@
+# utf-8
+# Python Imports
+import datetime
+
+# Framework Imports
 from flask import render_template, flash, redirect, url_for, request
 from flask.ext.security import login_required
 from flask.ext.login import current_user
-from . import admin
-from .. import db
-from . import forms
-from ..models import Object, Tag, Comment
-from helpers import get_tags, slugify
-import datetime
+
+# App Imports
+from app import db
 from config import ADMIN_PER_PAGE
+from app.admin import admin
+from app.admin import forms
+from app.models import Object, Tag, Comment
+from app.admin.helpers import *
+from app.services.objects import *
 
 
 # Views
@@ -20,7 +27,7 @@ def index():
     return render_template('admin/index.html')
 
 
-#Flask-Security edit extended-profile
+# Flask-Security edit extended-profile
 @admin.route('/profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -43,26 +50,41 @@ def edit_profile():
 @admin.route('/objects/')
 @login_required
 def all():
-    now = datetime.datetime.now()
-    page = request.args.get('page', 1, type=int)
-    query = Object.query.order_by(Object.created_on.desc())
-    pagination = query.paginate(page, per_page=ADMIN_PER_PAGE, error_out=False)
-    objects = pagination.items
-    count = query.count()
-    return render_template('admin/object/all.html', objects=objects, now=now, count=count, pagination=pagination)
+    query = Get_Objects()
+    pagination = Paginate_Objects(query)
+    return render_template('admin/object/all.html',
+                           objects=pagination.items,
+                           now=datetime.datetime.now(),
+                           count=query.count(),
+                           pagination=pagination)
 
 
 @admin.route('/objects/posts')
 @login_required
 def posts():
     label_ob = 'Post'
-    now = datetime.datetime.now()
-    query = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='post')
-    page = request.args.get('page', 1, type=int)
-    pagination = query.paginate(page, per_page=ADMIN_PER_PAGE, error_out=False)
-    objects = pagination.items
-    count = query.count()
-    return render_template('admin/object/category.html', objects=objects, label=label_ob, now=now, count=count, pagination=pagination)
+    query = Get_Objects(label_ob.lower())
+    pagination = Paginate_Objects(query)
+    return render_template('admin/object/category.html',
+                           objects=pagination.items,
+                           now=datetime.datetime.now(),
+                           count=query.count(),
+                           pagination=pagination,
+                           label=label_ob)
+
+
+@admin.route('/objects/links')
+@login_required
+def links():
+    label_ob = 'Link'
+    query = Get_Objects(label_ob.lower())
+    pagination = Paginate_Objects(query)
+    return render_template('admin/object/category.html',
+                           objects=pagination.items,
+                           now=datetime.datetime.now(),
+                           count=query.count(),
+                           pagination=pagination,
+                           label=label_ob)
 
 
 @admin.route('/objects/posts/new', methods=['GET', 'POST'])
@@ -114,19 +136,6 @@ def edit_post(id):
     form.title.data = post.title
     form.headline.data = post.headline
     return render_template('admin/object/edit_post.html', form=form)
-
-
-@admin.route('/objects/links')
-@login_required
-def links():
-    label_ob = 'Link'
-    now = datetime.datetime.now()
-    query = Object.query.order_by(Object.created_on.desc()).filter_by(object_type='link')
-    page = request.args.get('page', 1, type=int)
-    pagination = query.paginate(page, per_page=ADMIN_PER_PAGE, error_out=False)
-    objects = pagination.items
-    count = query.count()
-    return render_template('admin/object/category.html', objects=objects, label=label_ob, now=now, count=count, pagination=pagination)
 
 
 @admin.route('/objects/links/new', methods=['GET', 'POST'])
