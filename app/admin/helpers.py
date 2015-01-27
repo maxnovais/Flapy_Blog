@@ -7,7 +7,6 @@ from unidecode import unidecode
 from flask import request
 
 # App Imports
-from config import ADMIN_PER_PAGE
 from app.models import Tag, User
 from app import db
 
@@ -43,7 +42,7 @@ def slugify(text, delim=u'-'):
     return unicode(delim.join(result))
 
 
-def Paginate_Objects(query):
+def paginate(query, unity):
     page = request.args.get('page', 1, type=int)
-    pagination = query.paginate(page, per_page=ADMIN_PER_PAGE, error_out=False)
+    pagination = query.paginate(page, per_page=unity, error_out=False)
     return pagination

@@ -12,9 +12,10 @@ from app import db
 from config import ADMIN_PER_PAGE
 from app.admin import admin
 from app.admin import forms
-from app.models import Object, Tag, Comment
+from app.models import Comment
 from app.admin.helpers import *
 from app.services.objects import *
+from app.services.tags import *
 
 
 # Views
@@ -50,8 +51,8 @@ def edit_profile():
 @admin.route('/objects/')
 @login_required
 def all():
-    query = Get_Objects()
-    pagination = Paginate_Objects(query)
+    query = get_objects()
+    pagination = paginate(query, ADMIN_PER_PAGE)
     return render_template('admin/object/all.html',
                            objects=pagination.items,
                            now=datetime.datetime.now(),
@@ -63,8 +64,8 @@ def all():
 @login_required
 def posts():
     label_ob = 'Post'
-    query = Get_Objects(label_ob.lower())
-    pagination = Paginate_Objects(query)
+    query = get_objects(label_ob.lower())
+    pagination = paginate(query, ADMIN_PER_PAGE)
     return render_template('admin/object/category.html',
                            objects=pagination.items,
                            now=datetime.datetime.now(),
@@ -77,8 +78,8 @@ def posts():
 @login_required
 def links():
     label_ob = 'Link'
-    query = Get_Objects(label_ob.lower())
-    pagination = Paginate_Objects(query)
+    query = get_objects(label_ob.lower())
+    pagination = paginate(query, ADMIN_PER_PAGE)
     return render_template('admin/object/category.html',
                            objects=pagination.items,
                            now=datetime.datetime.now(),
@@ -92,50 +93,17 @@ def links():
 def new_post():
     form = forms.Post()
     if form.validate_on_submit():
-        post = Object(
-            object_type='post',
-            title=form.title.data,
-            slug_title=slugify(form.title.data),
-            headline=form.headline.data,
-            body=form.body.data,
-            author=current_user,
-            tags=get_tags(form.tags.data)
-            )
-        db.session.add(post)
-        db.session.commit()
+        create_objects('post',
+                       form.title.data,
+                       slugify(form.title.data),
+                       form.headline.data,
+                       form.body.data,
+                       current_user,
+                       get_tags(form.tags.data))
         flash('Your post has been created.')
         return redirect(url_for('admin.all'))
-    return render_template('admin/object/new_post.html', form=form,)
-
-
-@admin.route('/objects/posts/edit/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edit_post(id):
-    form = forms.Post()
-    post = Object.query.filter_by(id=id).first_or_404()
-    if post.object_type == 'link':
-        flash('This object is a Hiperlink, select this object bellow')
-        return redirect(url_for('admin.links'))
-    else:
-        if form.validate_on_submit():
-            post.body = form.body.data
-            post.title = form.title.data
-            post.slug_title = slugify(form.title.data)
-            post.headline = form.headline.data
-            post.last_update = datetime.datetime.now()
-            post.tags = get_tags(form.tags.data)
-            db.session.add(post)
-            db.session.commit()
-            flash('Your post has been updated.')
-            return redirect(url_for('admin.all'))
-    tags = []
-    for tag in post.tags:
-        tags.append(tag.name)
-    form.body.data = post.body
-    form.tags.data = " ".join(tags)
-    form.title.data = post.title
-    form.headline.data = post.headline
-    return render_template('admin/object/edit_post.html', form=form)
+    return render_template('admin/object/new_post.html',
+                           form=form)
 
 
 @admin.route('/objects/links/new', methods=['GET', 'POST'])
@@ -143,100 +111,120 @@ def edit_post(id):
 def new_link():
     form = forms.Link()
     if form.validate_on_submit():
-        link = Object(
-            object_type='link',
-            title=form.title.data,
-            slug_title=slugify(form.title.data),
-            body=form.link.data,
-            author=current_user,
-            tags=get_tags(form.tags.data)
-            )
-        db.session.add(link)
-        db.session.commit()
-        flash('Your link has been created')
+        create_objects('link',
+                       form.title.data,
+                       slugify(form.title.data),
+                       '',
+                       form.link.data,
+                       current_user,
+                       get_tags(form.tags.data))
+        flash('Your link has been created.')
         return redirect(url_for('admin.all'))
-    return render_template('admin/object/new_link.html', form=form)
+    return render_template('admin/object/new_link.html',
+                           form=form)
+
+
+@admin.route('/objects/posts/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(id):
+    form = forms.Post()
+    object_info = get_object_by_id(id)
+    if object_info.object_type == 'link':
+        return redirect(url_for('admin.links'))
+    else:
+        if form.validate_on_submit():
+            object_info.body = form.body.data
+            object_info.title = form.title.data
+            object_info.slug_title = slugify(form.title.data)
+            object_info.headline = form.headline.data
+            object_info.last_update = datetime.datetime.now()
+            object_info.tags = get_tags(form.tags.data)
+            db.session.add(object_info)
+            db.session.commit()
+            flash('Your post has been updated.')
+            return redirect(url_for('admin.all'))
+    tags = []
+    for tag in object_info.tags:
+        tags.append(tag.name)
+    form.body.data = object_info.body
+    form.tags.data = " ".join(tags)
+    form.title.data = object_info.title
+    form.headline.data = object_info.headline
+    return render_template('admin/object/edit_post.html',
+                           form=form)
 
 
 @admin.route('/objects/links/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_link(id):
     form = forms.Link()
-    link = Object.query.filter_by(id=id).first_or_404()
-    if link.object_type == 'post':
+    object_info = get_object_by_id(id)
+    if object_info.object_type == 'post':
         flash('This object is a Post, select this object bellow')
         return redirect(url_for('admin.posts'))
     else:
         if form.validate_on_submit():
-            link.body = form.link.data
-            link.title = form.title.data
-            link.slug_title = slugify(form.title.data)
-            link.last_update = datetime.datetime.now()
-            link.tags = get_tags(form.tags.data)
-            link.author = current_user
-            db.session.add(link)
+            object_info.body = form.link.data
+            object_info.title = form.title.data
+            object_info.slug_title = slugify(form.title.data)
+            object_info.last_update = datetime.datetime.now()
+            object_info.tags = get_tags(form.tags.data)
+            object_info.author = current_user
+            db.session.add(object_info)
             db.session.commit()
             flash('Your link has been updated')
             return redirect(url_for('admin.all'))
     tags = []
-    for tag in link.tags:
+    for tag in object_info.tags:
         tags.append(tag.name)
-    form.link.data = link.body
+    form.link.data = object_info.body
     form.tags.data = " ".join(tags)
-    form.title.data = link.title
-    return render_template('admin/object/edit_link.html', form=form)
+    form.title.data = object_info.title
+    return render_template('admin/object/edit_link.html',
+                           form=form)
 
 
 @admin.route('/objects/visible/<int:id>')
 @login_required
 def turn_visible(id):
-    query = Object.query.filter_by(id=id).first_or_404()
-    if query.enabled is True:
-        query.enabled = False
-        query.last_update = datetime.datetime.now()
-        db.session.add(query)
-        db.session.commit()
-        flash('Your object turn in disabled')
-    else:
-        query.enabled = True
-        query.last_update = datetime.datetime.now()
-        db.session.add(query)
-        db.session.commit()
-        flash('Your object turn in enabled')
+    process = enable_disable_objects(id)
+    flash(process)
     return redirect(url_for('admin.all'))
 
 
 @admin.route('/objects/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete(id):
-    now = datetime.datetime.now()
     form = forms.Delete()
-    query = Object.query.filter_by(id=id).first_or_404()
+    query = get_object_by_id(id)
     if form.validate_on_submit():
         db.session.delete(query)
         db.session.commit()
         flash('Your object has been deleted')
         return redirect(url_for('admin.all'))
-    return render_template('admin/object/delete.html', object=query, form=form, now=now)
+    return render_template('admin/object/delete.html',
+                           object=query,
+                           form=form,
+                           now=datetime.datetime.now())
 
 
 @admin.route('/tags')
 @login_required
 def all_tags():
-    query = Tag.query.order_by(Tag.created_on.desc())
-    page = request.args.get('page', 1, type=int)
-    pagination = query.paginate(page, per_page=ADMIN_PER_PAGE, error_out=False)
-    tags = pagination.items
-    count = query.count()
-    now = datetime.datetime.now()
-    return render_template('admin/tag/all.html', tags=tags, count=count, now=now, pagination=pagination)
+    query = get_all_tags()
+    pagination = paginate(query, ADMIN_PER_PAGE)
+    return render_template('admin/tag/all.html',
+                           tags=pagination.items,
+                           count=query.count(),
+                           now=datetime.datetime.now(),
+                           pagination=pagination)
 
 
 @admin.route('/tags/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_tag(id):
     form = forms.Tag()
-    tag = Tag.query.filter_by(id=id).first_or_404()
+    tag = get_tag_by_id(id)
     if form.validate_on_submit():
         tag.name = form.name.data
         db.session.add(tag)
@@ -250,16 +238,19 @@ def edit_tag(id):
 @admin.route('/tags/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_tag(id):
-    now = datetime.datetime.now()
     form = forms.Delete()
-    tag = Tag.query.filter_by(id=id).first_or_404()
-    objects = Object.query.filter(Object.tags.contains(tag)).all()
+    tag = get_tag_by_id(id)
+    objects = get_objects_by_tag(tag)
     if form.validate_on_submit():
         db.session.delete(tag)
         db.session.commit()
         flash('Your tag has been deleted')
         return redirect(url_for('admin.all_tags'))
-    return render_template('admin/tag/delete.html', tag=tag, objects=objects, form=form, now=now)
+    return render_template('admin/tag/delete.html',
+                           tag=tag,
+                           objects=objects,
+                           form=form,
+                           now=datetime.datetime.now())
 
 
 @admin.route('/comments')
