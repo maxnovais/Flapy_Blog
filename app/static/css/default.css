@@ -105,6 +105,10 @@ a:hover{
     padding: 0.5em;
 }
 
+.site-title>small{
+    color: #263238;
+}
+
 /*Header nav-bar transformation*/
 
 .avatar-shrink{
@@ -139,8 +143,8 @@ a:hover{
     position: fixed;
     float: left;
     text-align: left;
-    margin-top: 8.2em;
-    margin-left: 3.5em;
+    margin-top: 7.9em;
+    margin-left: 4.2em;
 }
 
 /*Fix size of top header*/
