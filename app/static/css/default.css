@@ -45,7 +45,7 @@ a:hover{
     background-color: #78909C;
     margin: 0px;
     padding: 0px;
-    height: 14em;
+    height: 15em;
     width: 100%;
     position: fixed;
 
@@ -67,14 +67,14 @@ a:hover{
 .navbar{
     background-color: #607D8B;
     border-bottom: 0px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.26);
+    box-shadow: 0 0px 0px rgba(0,0,0,0.26);
     border-radius: 0%;
     width: 100%;
     margin: 0px;
     padding: 0px;
     border-width: 0 0px 0px 0px;
     padding: 1em;
-    font-size: 1.2em;
+    font-size: 1.4em;
     position: fixed;
     margin-top: 11.6em;
     z-index: 1;
@@ -123,7 +123,7 @@ a:hover{
 
 .header-shrink{
     text-align: left;
-    margin-top: -14em;
+    margin-top: -15em;
 
 }
 
@@ -137,7 +137,7 @@ a:hover{
     margin-top: 0px;
     padding: 0.3em;
     border-width: 0 0px 0px 0px;
-    font-size: 1em;
+    font-size: 1.2em;
 }
 
 .site-title-shrink{
