@@ -103,7 +103,11 @@ a:hover{
 .site-title{
     margin: 0px;
     padding: 0.2em;
+}
 
+.site-title>small{
+    color: #263238;
+    margin-top: -0.2em
 }
 
 /*Header nav-bar transformation*/
