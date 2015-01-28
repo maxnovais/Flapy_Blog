@@ -107,6 +107,8 @@ a:hover{
 
 .site-title>small{
     color: #263238;
+    font-size: 0.8em;
+    font-weight: 300;
 }
 
 /*Header nav-bar transformation*/
@@ -144,7 +146,7 @@ a:hover{
     float: left;
     text-align: left;
     margin-top: 7.8em;
-    margin-left: 2.2em;
+    margin-left: 3.2em;
 }
 
 /*Fix size of top header*/
