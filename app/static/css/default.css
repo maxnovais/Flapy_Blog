@@ -117,7 +117,7 @@ a:hover{
     float: left;
     text-align: left;
     margin-top: 14.5em;
-    margin-left: 3em;
+    margin-left: 1em;
 }
 
 .header-shrink{
@@ -143,8 +143,8 @@ a:hover{
     position: fixed;
     float: left;
     text-align: left;
-    margin-top: 7.9em;
-    margin-left: 4.2em;
+    margin-top: 7.8em;
+    margin-left: 2.2em;
 }
 
 /*Fix size of top header*/
