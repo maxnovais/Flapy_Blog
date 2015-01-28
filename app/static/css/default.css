@@ -67,7 +67,7 @@ a:hover{
 .navbar{
     background-color: #607D8B;
     border-bottom: 0px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.26);
+    box-shadow: 0 0px 0px rgba(0,0,0,0.26);
     border-radius: 0%;
     width: 100%;
     margin: 0px;
@@ -107,7 +107,7 @@ a:hover{
 
 .site-title>small{
     color: #263238;
-    font-size: 0.8em;
+    font-size: 0.5em;
     font-weight: 300;
 }
 
