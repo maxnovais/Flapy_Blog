@@ -14,7 +14,6 @@
         {% if current_user.is_authenticated() %}
         <li><a href="{{ url_for('admin.all') }}">All Entries</a></li>
         <li><a href="{{ url_for('admin.all_tags') }}">Tags</a></li>
-        <li><a href="{{ url_for('admin.all_comments') }}">Comments</a></li>
         <li><a href="{{ url_for('admin.edit_profile') }}">Edit Profile</a></li>
         <li><a href="{{ url_for('security.change_password') }}">Change Password</a></li>
         <li><a href="{{ url_for('security.logout') }}">Logout</a></li>
