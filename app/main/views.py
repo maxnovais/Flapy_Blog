@@ -86,7 +86,7 @@ def tags():
 def tag(id):
     tag = get_tag_by_id(id)
     query = get_objects_by_tag(tag, True)
-    pagination = paginate(query)
+    pagination = paginate(query, GUEST_PER_PAGE)
     return render_template('main/tag.html',
                            id=id,
                            now=datetime.datetime.now(),

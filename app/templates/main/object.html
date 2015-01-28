@@ -6,66 +6,50 @@
 {% endblock metas %}
 
 {% block content %}
-<div class="col-md-8 col-md-offset-2">
-   <div id="content" class="col-md-9">
-        <div id="article">
-            <h1>{{ object.title }}</h1>
-            {% if object.object_type=="post" %}
-            <h4><i>{{ object.headline }}</i></h4>
+<div class="col-md-12 panel">
+    <div id="article">
+        <h1>{{ object.title }}</h1>
+        {% if object.object_type=="post" %}
+        <h4><i>{{ object.headline }}</i></h4>
+        {% endif %}
+        <span id="date">
+            <span class="glyphicon glyphicon-calendar"></span>
+            {{ object.created_on.strftime('%d/%m/%Y - %H:%M') }}
+            ({{ moment(object.created_on).fromTime(now) }})
+            {% if object.last_update!=None %}
+                <i>
+                    - Atualizado em {{  object.last_update.strftime('%d/%m/%Y - %H:%M') }}
+                    ({{ moment(object.last_update).fromTime(now) }})
+                </i>
             {% endif %}
-            <span id="date">
-                <span class="glyphicon glyphicon-calendar"></span>
-                {{ object.created_on.strftime('%d/%m/%Y - %H:%M') }}
-                ({{ moment(object.created_on).fromTime(now) }})
-                {% if object.last_update!=None %}
-                    <i>
-                        - Atualizado em {{  object.last_update.strftime('%d/%m/%Y - %H:%M') }}
-                        ({{ moment(object.last_update).fromTime(now) }})
-                    </i>
-                {% endif %}
-            </span>
-            <hr>
-            {% if object.object_type=="post" %}
-            <p>
-                {% if object.body_html %}
-                    {{ object.body_html | safe }}
-                {% else %}
-                    {{ object.body }}
-                {% endif %}
-            </p>
+        </span>
+        <hr>
+        {% if object.object_type=="post" %}
+        <p>
+            {% if object.body_html %}
+                {{ object.body_html | safe }}
             {% else %}
-            <br>
-            <center>
-                        {{ object.body }}
-                        <br>
-                        <br>
-                        <a href="{{ object.body }}">
-                        <button type="button" class="btn btn-primary btn-lg">    
-                        <span class="glyphicon glyphicon-globe"></span> Acessar
-                        </button>
-                        </a>
-            </center>
-            <br>
+                {{ object.body }}
             {% endif %}
-            <br>
-        </div>
+        </p>
+        {% else %}
+        <br>
+        <center>
+                    {{ object.body }}
+                    <br>
+                    <br>
+                    <a href="{{ object.body }}">
+                    <button type="button" class="btn btn-primary btn-lg">    
+                    <span class="glyphicon glyphicon-globe"></span> Acessar
+                    </button>
+                    </a>
+        </center>
+        <br>
+        {% endif %}
+        <br>
     </div>
-
-    <div class="col-md-3">
-        <div id="tech-info-title" class="well well-sm">
-            <h4 >{{ object.title }}</h4>
-            por {{object.author.first_name}} em {{ moment(object.created_on).fromTime(now) }}
-            <br>
-
-            <hr>
-                    {% for tag in object.tags %}
-                    <a href="{{ url_for('main.tag', id=tag.id) }}">
-                    <button type="button" class="btn btn-info btn-xs">
-                    {{ tag.name }}
-                    </button></a>
-                    {% endfor %}
-                <br><br>
-        </div>
-    </div>
+    {% include 'main/_disqus.html' %}
 </div>
+
+
 {% endblock content %}

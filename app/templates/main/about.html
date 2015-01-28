@@ -4,31 +4,26 @@
     <meta name="keywords" content="Sobre, About">
 {% endblock metas %}
 {% block content %}
-<div class="col-md-8 col-md-offset-2">
-
-    <div class="col-md-3">
-        <div id="tech-info-title" class="well well-sm">
-            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-            <img src="{{ url_for('static', filename='img/profile.jpg') }}" height="150" width="150" alt="Maxwell de Souza Novais">
-        </div>
+<div class="col-md-3">
+    <div id="tech-info-title" class="well well-sm">
+        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+        <img src="{{ url_for('static', filename='img/profile.jpg') }}" height="150" width="150" alt="Maxwell de Souza Novais">
     </div>
+</div>
 
 
-   <div id="content" class="col-md-9">
-        <div id="article">
-        <h3>Sobre {{ user.first_name }} {{ user.last_name }}</h3>
-        <strong>Localização:</strong> {{ user.location }}
-        <br>
-        <strong>Email:</strong> {{ user.email }}
-        <hr>
-            {% if user.about_html %}
-                {{ user.about_html | safe }}
-            {% else %}
-                {{ user.about }}
-            {% endif %}
-        </div>
+<div id="content" class="col-md-9">
+    <div id="article">
+    <h3>Sobre {{ user.first_name }} {{ user.last_name }}</h3>
+    <strong>Localização:</strong> {{ user.location }}
+    <br>
+    <strong>Email:</strong> {{ user.email }}
+    <hr>
+        {% if user.about_html %}
+            {{ user.about_html | safe }}
+        {% else %}
+            {{ user.about }}
+        {% endif %}
     </div>
-
-
 </div>
 {% endblock content %}

@@ -7,57 +7,54 @@
 {% endblock metas %}
 
 {% block content %}
-<div class="col-md-8 col-md-offset-2">
-    <h1>{{ label }}</h1>
-    <p>
-     <div class="panel panel-default">
-      <div class="panel-heading">
-        Todos marcados com a tag: {{ label }}
-      </div>
-      <div class="table-responsive">
-          <table class="table table-hover">
-            <tr>
-                <th>Data</th>
-                <th>Título</th>
-                <th>Tags</th>
-                <th></th>
-            </tr>
-            {% for object in objects %}
-            {% if object.enabled==True %}
-            <tr>
-                <td>{{ object.created_on.strftime('%d/%m/%Y - %H:%M') }}</td>
-                <td>{{ object.title }}</td>
-                <td>
-                    {% for tag in object.tags %}
-                    <a href="{{ url_for('main.tag', id=tag.id) }}">
-                    <button type="button" class="btn btn-info btn-xs">
-                    {{ tag.name }}
-                    </button></a>
-                    {% endfor %}
-                </td>
-                <td>
-                    {% if object.object_type=='link' %}
-                    <a href="{{ object.body }}">
-                            <button type="button" class="btn btn-primary btn-xs">    
-                            <span class="glyphicon glyphicon-globe"></span> Acessar
-                            </button>
-                    </a>
-                    {% endif %}
-                    <a href="{{ url_for('main.object', string=object.slug_title) }}">
-                    <button type="button" class="btn btn-success btn-xs">
-                    <span class="glyphicon glyphicon-zoom-in"></span> Detalhes
-                    </button>
-                    </a>
-                </td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-          </table>
-      </div>
-    </div>
-        <div class="pagination">
-        {{ macros.pagination_widget(pagination, '.tag', fragment='#tag', id=id) }}
-        </div>
-    </p>
+<h1>{{ label }}</h1>
+<p>
+ <div class="panel panel-default">
+  <div class="panel-heading">
+    Todos marcados com a tag: {{ label }}
+  </div>
+  <div class="table-responsive">
+      <table class="table table-hover">
+        <tr>
+            <th>Data</th>
+            <th>Título</th>
+            <th>Tags</th>
+            <th></th>
+        </tr>
+        {% for object in objects %}
+        {% if object.enabled==True %}
+        <tr>
+            <td>{{ object.created_on.strftime('%d/%m/%Y - %H:%M') }}</td>
+            <td>{{ object.title }}</td>
+            <td>
+                {% for tag in object.tags %}
+                <a href="{{ url_for('main.tag', id=tag.id) }}">
+                <button type="button" class="btn btn-info btn-xs">
+                {{ tag.name }}
+                </button></a>
+                {% endfor %}
+            </td>
+            <td>
+                {% if object.object_type=='link' %}
+                <a href="{{ object.body }}">
+                        <button type="button" class="btn btn-primary btn-xs">    
+                        <span class="glyphicon glyphicon-globe"></span> Acessar
+                        </button></a>
+                {% endif %}
+                <a href="{{ url_for('main.object', string=object.slug_title) }}">
+                <button type="button" class="btn btn-success btn-xs">
+                <span class="glyphicon glyphicon-zoom-in"></span> Detalhes
+                </button>
+                </a>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </table>
+  </div>
 </div>
+    <div class="pagination">
+    {{ macros.pagination_widget(pagination, '.tag', fragment='#tag', id=id) }}
+    </div>
+</p>
 {% endblock content %}

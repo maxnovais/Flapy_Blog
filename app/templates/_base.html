@@ -4,6 +4,7 @@
 
 {% block metas %}
 {{ super() }}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="content-language" content="pt-br">
     <meta charset="UTF-8">
     <meta name="description" content="Blog de anotações de um estudante de desenvolvimento web, o site contém artigos sobre tecnlogia e outros assuntos nerds.">
@@ -13,49 +14,96 @@
 {% block head %}
     {{ super() }}
 
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+
 
     <!-- Custom styles -->
+    <link href="{{ url_for('static', filename='css/lumen.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/default.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/social.css') }}" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
-    <!-- IE's hack viewport -->
-    <script src="{{ url_for('static', filename='js/ie-emulation-modes-warning.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
-
-    <!-- fix responsive-tables on Firefox -->
-    <script>
-
-        @-moz-document url-prefix() {
-            fieldset { display: table-cell; }
-        }
-    </script>
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     {% include "_analytics.html" %}
     {{ pagedown.html_head() }}
     {{ moment.include_jquery() }}
     {{ moment.include_moment() }}
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 {% endblock head %}
 
 {% block body %}
-{% include "_header.html" %}
+    <div class="header">
+        <img src="{{ url_for('static', filename='img/profile.png') }}" class="avatar">
+        <h2 class="site-title">Site title</h2>
+    </div>
 
-<div id="container" class="row">
-    {% block content %}{% endblock content %}
-</div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('main.index')}}">Home</a></li>
+                    <li><a href="{{ url_for('main.posts')}}">Artigos</a></li>
+                    <li><a href="{{ url_for('main.links')}}">Links</a></li>
+                    <li><a href="{{ url_for('main.tags')}}">Tags</a></li>
+                    <li><a href="{{ url_for('main.about')}}">Sobre</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+            <div class="fix-bar">
+            </div>
+            <div class="row">
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
+    </div>
 
 
-{% include "_footer.html" %}
+    <div class="row">
+        <div class="col-md-12 footer">
+            <div class="col-md-6 social col-md-offset-2">
+                <h4>Social</h4>
+                <a class="btn btn-default btn-email">
+                    <span class="fa fa-envelope"></span>
+                </a>
+                <a class="btn btn-default btn-facebook">
+                    <span class="fa fa-facebook"></span>
+                </a>
+                <a class="btn btn-default btn-github">
+                    <span class="fa fa-github-alt"></span>
+                </a>
+                <a class="btn btn-default btn-google">
+                    <span class="fa fa-google-plus"></span>
+                </a>
+                <a class="btn btn-default btn-linkedin">
+                    <span class="fa fa-linkedin"></span>
+                </a>
+                <a class="btn btn-default btn-twitter">
+                    <span class="fa fa-twitter"></span>
+                </a>
+            </div>
+
+            <div class="col-md-2 copyright">
+            Site Title © 2015
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='jquery/jquery-1.10.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/animate-header.js') }}"></script>
+
 {% endblock body %}

@@ -1,14 +1,13 @@
 {% extends "_base.html" %}
 {% block content %}
-<div class="col-md-8 col-md-offset-2">
-    <h1>Buscando por "{{ string }}"</h1> 
-    <hr>
-   <p>
-            {% include "main/search/_tag.html" %}
-            <hr>
-            {% include "main/search/_link.html" %}
-            <hr>
-            {% include "main/search/_post.html" %}
-    </p>
-</div>
+<h1>Buscando por "{{ string }}"</h1> 
+<hr>
+<p>
+        {% include "main/search/_tag.html" %}
+        <hr>
+        {% include "main/search/_link.html" %}
+        <hr>
+        {% include "main/search/_post.html" %}
+</p>
+
 {% endblock content %}

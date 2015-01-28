@@ -7,57 +7,56 @@
 {% endblock metas %}
 
 {% block content %}
-<div class="col-md-8 col-md-offset-2">
-    <h1>Todos comentários</h1>
-    <p>
-     <div class="panel panel-default">
-      <div class="panel-heading">
-        <strong>Total:</strong> {{ count }} entradas
-      </div>
 
-      <div class="table-responsive">
-          <table class="table table-hover">
-          <tr>
-              <th>Data</th>
-              <th>Nome</th>
-              <th>Comentário</th>
-              <th></th>
-          </tr>
-          {% for comment in comments %}
-            {% if comment.object.enabled==True %}
-            <tr>
-                <td>{{ comment.created_on.strftime('%d/%m/%Y - %H:%M') }}</td>
-                <td>
-                  {% if comment.publish_email==True %} 
-                  <a href="mailto:{{comment.email}}">{{comment.name}}</a>
-                  {% else %}
-                  {{comment.name}}
-                  {% endif %}
-                </td>
-                <td>{{ comment.body }}</td>
-                <td>
-                    {% if comment.object.object_type=='link' %}
-                    <a href="{{ comment.object.body }}">
-                            <button type="button" class="btn btn-primary btn-xs">    
-                            <span class="glyphicon glyphicon-globe"></span> Go
-                            </button>
-                    </a>
-                    {% endif %}
-                    <a href="{{ url_for('main.object', string=comment.object.slug_title) }}">
-                    <button type="button" class="btn btn-success btn-xs">
-                    <span class="glyphicon glyphicon-zoom-in"></span> Details
-                    </button>
-                    </a>
-                </td>
-            </tr>
-            {%endif %}
-          {% endfor %}
-        </table>
-      </div>
-    </div>
-        <div class="pagination">
-        {{ macros.pagination_widget(pagination, '.comments') }}
-        </div>
-    </p>
+<h1>Todos comentários</h1>
+<p>
+ <div class="panel panel-default">
+  <div class="panel-heading">
+    <strong>Total:</strong> {{ count }} entradas
+  </div>
+
+  <div class="table-responsive">
+      <table class="table table-hover">
+      <tr>
+          <th>Data</th>
+          <th>Nome</th>
+          <th>Comentário</th>
+          <th></th>
+      </tr>
+      {% for comment in comments %}
+        {% if comment.object.enabled==True %}
+        <tr>
+            <td>{{ comment.created_on.strftime('%d/%m/%Y - %H:%M') }}</td>
+            <td>
+              {% if comment.publish_email==True %} 
+              <a href="mailto:{{comment.email}}">{{comment.name}}</a>
+              {% else %}
+              {{comment.name}}
+              {% endif %}
+            </td>
+            <td>{{ comment.body }}</td>
+            <td>
+                {% if comment.object.object_type=='link' %}
+                <a href="{{ comment.object.body }}">
+                        <button type="button" class="btn btn-primary btn-xs">    
+                        <span class="glyphicon glyphicon-globe"></span> Go
+                        </button>
+                </a>
+                {% endif %}
+                <a href="{{ url_for('main.object', string=comment.object.slug_title) }}">
+                <button type="button" class="btn btn-success btn-xs">
+                <span class="glyphicon glyphicon-zoom-in"></span> Details
+                </button>
+                </a>
+            </td>
+        </tr>
+        {%endif %}
+      {% endfor %}
+    </table>
+  </div>
 </div>
+    <div class="pagination">
+    {{ macros.pagination_widget(pagination, '.comments') }}
+    </div>
+</p>
 {% endblock content %}
